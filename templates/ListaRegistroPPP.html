@@ -1,0 +1,97 @@
+{% extends 'vistaEstudiante.html'%}
+{% block cuerpo2 %}
+<div class="container-fluid">
+    <div class="row">
+        {% include '1barraLateral.html'%}
+        <div class="col-sm-12 col-md-12 col-lg-10 col-xl-10 col-xxl-10">
+            {% include '2buscador.html' %}
+            <form method="post">
+                <div class="col-12 bd-highlight container-fluid w-100 my-2 mx-0 mt-3">
+                    {% if ppp %}
+                    {% for pp in ppp %}
+                    {% if pp[4] == elemento[0] %}
+                    <table class="table table-striped mt-2" style="background-color: whitesmoke;">
+                        <thead>
+                            <th class="align-middle" scope="col"><a href="">#</a></th>
+                            <th class="align-middle" scope="col"><a href="">Numero de PPP</a></th>
+                            <th class="align-middle" scope="col"><a href="">Fecha inicial</a></th>
+                            <th class="align-middle" scope="col"><a href="">Fecha final</a></th>
+                            <th class="align-middle" scope="col"><a href="">Horas PPP</a></th>
+                            <th class="align-middle text-center" scope="col"><a>Acciones</a></th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#informe{{pp[0]}}{{pp[1]}}" data-bs-toggle="collapse" aria-expanded="false"
+                                        aria-controls="informe{{pp[0]}}{{pp[1]}}"><i class="fa-solid fa-bars"></i></a>
+                                </td>
+                                <td>{{pp[0]}}</td>
+                                <td>{{pp[1]}}</td>
+                                <td>{{pp[2]}}</td>
+                                <td>{{pp[3]}}</td>
+                                <td class="col text-center align-middle">
+                                    <div class="btn-group" role="group" style="gap: 10px;height: 30px;">
+                                        <a href="{{ url_for('editarPPP',id=pp[20]) }}"
+                                            class="btn btn-info btn-sm rounded" role="button" title="Modificar"><i
+                                                class="fa-solid fa-pencil"></i></a>
+                                        <a href="#" class="btn btn-info btn-sm rounded" role="button"
+                                            title="Visualizar"><i class="bi bi-eye-fill"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+
+
+                        <tr>
+
+                            <td colspan="6" class="px-0 py-0 border-0">
+                                <div id="informe{{pp[0]}}{{pp[1]}}" class="collapse">
+                                    <table class="table table-striped mt-2" style="background-color: whitesmoke;">
+                                        <thead style="border-top: 1px solid black; border-bottom: 1px solid black;">
+                                            <th class="align-middle col-1" scope="col"><a>#</a></th>
+                                            <th class="align-middle col-4" scope="col"><a>Tipo de informe</a></th>
+                                            <th class="align-middle col-3" scope="col"><a>Fecha de Registro</a></th>
+                                            <th class="align-middle col-2" scope="col"><a>Estado</a></th>
+                                            <th class="align-middle text-center col-2" scope="col"><a>Acciones</a></th>
+                                        </thead>
+                                        <tbody>
+                                            {% for inf in tipo %}
+                                            <tr>
+                                                <td>+</td>
+                                                <td>{{inf[0]}}</td>
+                                                <td>{{pp[inf[1]]}}</td>
+                                                <td>{{pp[inf[1]+1]}}</td>
+                                                <td class="col text-center align-middle">
+                                                    <div class="btn-group" role="group" style="gap: 10px;height: 30px;">
+                                                        <a href="{{url_for('enviar_informe',tipo=inf[0],id=pp[inf[1]+2])}}"
+                                                            class="btn btn-success btn-sm rounded" role="button rounded"
+                                                            title="Enviar"><i class="fa-regular fa-paper-plane"></i></a>
+
+                                                        <a href="{{url_for('editar',tipo=inf[0],id=pp[inf[1]+2],idE=0)}}"
+                                                            class="btn btn-primary btn-sm rounded" role="button"
+                                                            title="Modificar"><i class="fa-solid fa-pencil"></i></a>
+                                                        <a href="{{ url_for('generar_pdf_informe',tipo=inf[0], id=pp[inf[1]+2]) }}"
+                                                            class="btn btn-primary btn-sm rounded" role="button"
+                                                            title="Generar PDF">
+                                                            <i class="fa-solid fa-file-pdf"></i> Generar PDF
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <h3>No se encontraron resultados... :'(</h3>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock cuerpo2 %}

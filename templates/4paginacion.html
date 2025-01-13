@@ -1,0 +1,63 @@
+<div class="d-flex justify-content-end">
+    <ul class="pagination">
+        <!-- Botón "Inicio" para ir a la primera página -->
+        {% if lista.number > 1 %}
+        <li class="page-item">
+            <a class="page-link" href="?pagina=1">Inicio</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">Inicio</a>
+        </li>
+        {% endif %}
+
+        <!-- Botón « para ir a la página anterior -->
+        {% if lista.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?pagina={{ lista.previous_page_number }}">«</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">«</a>
+        </li>
+        {% endif %}
+
+        <!-- Lógica para mostrar solo dos números consecutivos -->
+        {% for i in lista.paginator.page_range %}
+            {% if i >= lista.number - 1 and i <= lista.number + 1 %}
+            <!-- Si estamos en la página actual, activarla -->
+            {% if lista.number == i %}
+            <li class="page-item active">
+                <a class="page-link" href="#">{{ i }} <span class="sr-only"></span></a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?pagina={{ i }}">{{ i }}</a>
+            </li>
+            {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        <!-- Botón » para ir a la página siguiente -->
+        {% if lista.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?pagina={{ lista.next_page_number }}">»</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">»</a>
+        </li>
+        {% endif %}
+
+        <!-- Botón "Fin" para ir a la última página -->
+        {% if lista.number < lista.paginator.num_pages %}
+        <li class="page-item">
+            <a class="page-link" href="?pagina={{ lista.paginator.num_pages }}">Fin</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">Fin</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>

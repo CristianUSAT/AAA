@@ -1,0 +1,186 @@
+{% set base_template = 'vistaEstudiante.html' %}
+{% if '/listaEmpresas' in request.path %}
+    {% set base_template = 'vistaEstudiante.html' %}
+{% elif '/listaEmpresasDoc' in request.path %}
+    {% set base_template = 'vistaDocente.html' %}
+{% else %}
+    {% set base_template = 'vistaAdministrador.html' %}
+{% endif %}
+
+{% extends base_template %}
+
+{% block cuerpo2 %}
+<div class="container-fluid">
+    <div class="row">
+        {% include '1barraLateral.html' %}
+        <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 col-xxl-10 pe-0">
+            {% include '2buscador.html' %}
+            <form method="post" class="col-12">
+                <div class="col-12 bd-highlight container-fluid w-100 my-2 mx-0 pe-4">
+                    <div class="d-flex justify-content-between align-middle py-2 pb-0">
+
+
+                        <div class="d-block justify-content-start">
+                            
+                        </div>
+                        <nav>
+                            <ul class="pagination">
+                                {% if page > 1 %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?razSocEmpresa={{ empresa }}&dir={{next_dir}}&page=1&columna=1&page={{total_pages}}" style="font-size: 13px;">Inicio</a>
+                                    </li>
+                                {% endif %}
+                                {% if page > 1 %}
+                                    <li class="page-item">
+                                        <a class="page-link" style="font-size: 13px;" href="?razSocEmpresa={{ empresa }}&dir={{next_dir}}&page={{page-1}}&columna=1&page={{total_pages}}">Anterior</a>
+                                    </li>
+                                {% endif %}
+                                {% for p in range(1, total_pages + 1) %}
+                                    <li class="page-item {% if p == page %}active{% endif %}">
+                                        <a class="page-link" style="font-size: 13px;" href="?razSocEmpresa={{ empresa }}&dir={{next_dir}}&page={{p}}&columna=1&page={{total_pages}}">{{ p }}</a>
+                                    </li>
+                                {% endfor %}
+                                {% if page < total_pages %}
+                                    <li class="page-item">
+                                        <a class="page-link" style="font-size: 13px;" href="?razSocEmpresa={{ empresa }}&dir={{next_dir}}&page={{page+1}}&columna=1&page={{total_pages}}">Siguiente</a>
+                                    </li>
+                                {% endif %}
+                                {% if page < total_pages %}
+                                    <li class="page-item">
+                                        <a class="page-link" style="font-size: 13px;" href="?razSocEmpresa={{ empresa }}&dir={{next_dir}}&page={{total_pages}}&columna=1&page={{total_pages}}">Fin</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                    {% if lista %}
+                        <table class="table table-striped" style="background-color: whitesmoke;">
+                            <thead>
+                                <tr>
+                                    <th class="align-middle col-1" scope="col"><a href="?razSocEmpresa={{ empresa }}&dir={{next_dir}}&page={{page}}&columna=0&page={{total_pages}}">#</a></th>
+                                    <th class="align-middle col-4" scope="col"><a href="?razSocEmpresa={{ empresa }}&dir={{next_dir}}&page={{page}}&columna=1&page={{total_pages}}">Empresa</a></th>
+                                    <th class="align-middle col-2" scope="col"><a href="?razSocEmpresa={{ empresa }}&dir={{next_dir}}&page={{page}}&columna=2&page={{total_pages}}">Dirección</a></th>
+                                    <th class="align-middle col-2" scope="col"><a href="?razSocEmpresa={{ empresa }}&dir={{next_dir}}&page={{page}}&columna=3&page={{total_pages}}">Giro</a></th>
+                                    <th class="align-middle col-2" scope="col"><a href="?razSocEmpresa={{ empresa }}&dir={{next_dir}}&page={{page}}&columna=4&page={{total_pages}}">Representante Legal</a></th>
+                                    <th class="align-middle text-center col-1" scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for elemento in lista %}
+                                    <tr>
+                                        <td scope="col">{{ elemento[0] }}</td>
+                                        <td scope="col">{{ elemento[1] }}</td>
+                                        <td scope="col">{{ elemento[2] }}</td>
+                                        <td scope="col">{{ elemento[3] }}</td>
+                                        <td scope="col">{{ elemento[4] }}</td>
+                                        <td class="text-center align-middle">
+                                            <div class="d-flex justify-content-around">
+                                                <a href="#" class="btn btn-info btn-sm mx-1" role="button" title="Visualizar" data-bs-toggle="modal" data-bs-target="#modal-verEmpresa{{elemento[0]}}">
+                                                    <i class="bi bi-eye-fill"></i>
+                                                </a>
+                                                {% include 'modales.html' %}
+                                                <a href="#" class="btn btn-primary btn-sm mx-1" role="button" title="Editar" data-bs-toggle="modal" data-bs-target="#moda-modificarEmpresa{{elemento[0]}}">
+                                                    <i class="bi bi-pencil-fill"></i>
+                                                </a>
+                                                {% if '/listaEmpresasDoc' in request.path %}
+                                                <button type="button" class="btn btn-danger btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#moda-eliminarEmpresa{{elemento[0]}}" title="Eliminar">
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </button>
+                                                {% elif '/listaEmpresas' in request.path %}
+                                                <button type="button" class="btn btn-danger btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#moda-eliminarRelEmpresa{{elemento[0]}}" title="Eliminar">
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </button>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                    {% set elemento = [0] %}
+                    {% include 'modales.html' %}
+                        <h3>No se encontraron resultados... :'(</h3>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para listar empresas -->
+<div class="modal fade text-center" id="modal-listarEmpresas" tabindex="-1" aria-labelledby="modal-listarEmpresasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form action="{{ url_for('listaEmpresas') }}" method="POST">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: #ff0000; color: white;">Seleccionar Empresa</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Razón Social</th>
+                                        <th>Dirección</th>
+                                        <th>Giro</th>
+                                        <th>Representante</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if empresas %}
+                                        {% for empresa in empresas %}
+                                            <tr>
+                                                <td>{{ empresa[0] }}</td>  <!-- ID de la empresa -->
+                                                <td>{{ empresa[1] }}</td>  <!-- Razón Social -->
+                                                <td>{{ empresa[2] }}</td>  <!-- Dirección -->
+                                                <td>{{ empresa[3] }}</td>  <!-- Giro -->
+                                                <td>{{ empresa[4] }}</td>  <!-- Representante -->
+                                                <td>
+                                                    <button type="submit" name="empresa_id" value="{{ empresa[0] }}" class="btn btn-success btn-sm">Agregar</button>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6" class="text-center">No hay empresas disponibles.</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        {% for category, message in messages %}
+        Swal.fire({
+            title: 'Notificación',
+            text: "{{ message }}",
+            icon: "{{ 'success' if category == 'success' else 'error' if category == 'error' else 'info' }}",
+            confirmButtonText: 'Aceptar'
+        });
+        {% endfor %}
+    });
+</script>
+{% endif %}
+{% endwith %}
+
+{% endblock cuerpo2 %}

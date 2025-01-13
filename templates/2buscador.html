@@ -1,0 +1,74 @@
+<h1 class="text-center my-1" style="font-family: Tahoma; font-size: 28px;padding-top:10px;">
+    {{ titulo }}
+</h1>
+<hr style="margin-bottom: 10px;margin-top: 10px;">
+
+<form action="" method="get">
+    {% if '/listaPP' in request.path %}
+        <input type="hidden" name="path" value="{{ url_for('listaPPP') }}">
+    {% elif '/listaEstudiante' in request.path %}
+        <input type="hidden" name="path" value="{{ url_for('listaEstudiante') }}">
+    {% elif '/listaFacultad' in request.path %}
+        <input type="hidden" name="path" value="{{ url_for('listaFacultad') }}">
+    {% elif '/listaEscuela' in request.path %}
+        <input type="hidden" name="path" value="{{ url_for('listaEscuela') }}">
+    {% elif '/listaLinea' in request.path %}
+        <input type="hidden" name="path" value="{{ url_for('listaLinea') }}">
+    {% elif '/listaEmpresas' in request.path %}
+        <input type="hidden" name="path" value="{{ url_for('listaEmpresas') }}">
+    {% elif '/listaResponsables' in request.path %}
+        <input type="hidden" name="path" value="{{ url_for('listaResponsables') }}">
+    {% elif '/listaPlan' in request.path %}
+        <input type="hidden" name="path" value="{{ url_for('listaPlan') }}">
+    {% elif '/listaDocentes' in request.path %}
+        <input type="hidden" name="path" value="{{ url_for('listaDocentes') }}">
+    {% elif '/listaEmpresasDoc' in request.path %}
+        <input type="hidden" name="path" value="{{ url_for('listaEmpresasDoc') }}">
+    {% elif '/listaResponsablesDoc' in request.path %}
+        <input type="hidden" name="path" value="{{ url_for('listaResponsablesDoc') }}">
+    {% endif %}
+
+    <div class="container-fluid d-flex w-100 my-1 mx-0 pt-2">
+        <div class="d-flex justify-content-between w-100">
+            <!-- Input de búsqueda y botones -->
+            <div class="col-8 d-flex align-items-center" style="height: 35px;">
+                <input type="text" class="form-control" placeholder="Buscar..." id="name" name="{{name}}">
+                <button type="submit" class="btn btn-outline-success btn-lg d-flex align-items-center ms-2" title="Buscar">
+                    <i class="bi bi-search" style="font-size: 14px;"></i>
+                </button>
+                <button onclick="location.reload();" class="btn btn-outline-danger btn-lg d-flex align-items-center ms-2" title="Recargar">
+                    <i class="bi bi-arrow-repeat" style="font-size: 14px;"></i>
+                </button>
+            </div>
+
+            <!-- Botones de la derecha -->
+            <div class="col-4 d-flex justify-content-end align-items-center" style="height: 35px;">
+                {% if '/listaEstudiante' in request.path %}
+                    <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#agregarI" role="button">Agregar</a>
+                {% elif '/listaEscuela' in request.path %}
+                    <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#agregarEscuela" role="button">Agregar</a>
+                {% elif '/listaFacultad' in request.path %}
+                    <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#agregarFacultad" role="button">Agregar</a>
+                {% elif '/listaLinea' in request.path %}
+                    <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#agregarLinea" role="button">Agregar</a>
+                {% elif '/listaEmpresasDoc' in request.path %}
+                    <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#modal-agregarEmpresaDoc" role="button">Agregar</a>
+                {% elif '/listaEmpresas' in request.path %}
+                    <a class="btn btn-primary mx-2" href="#" data-bs-toggle="modal" data-bs-target="#modal-listarEmpresas" role="button">Empresas</a>
+                    <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#modal-agregarEmpresa" role="button">Agregar</a>
+                {% elif '/listaResponsablesDoc' in request.path %}
+                    <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#modal-agregarResponsableDoc" role="button">Agregar</a> 
+                {% elif '/listaPlan' in request.path %}
+                    <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#agregarPlan" role="button">Agregar</a>
+                {% elif '/listaDocente' in request.path %}
+                    <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#modal-agregarDocente" role="button">Agregar</a>
+                {% elif '/listaSemestre' in request.path %}
+                    <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#modal-agregarSemestre" role="button">Agregar</a>
+                {% elif '/listaResponsables' in request.path %}
+                    <a class="btn btn-primary mx-2" href="#" data-bs-toggle="modal" data-bs-target="#modal-listarResponsables" role="button">Responsables</a>
+                    <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#modal-agregarResponsable" role="button">Agregar</a>    
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</form>

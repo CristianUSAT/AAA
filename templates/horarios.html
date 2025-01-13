@@ -1,0 +1,283 @@
+{% extends 'vistaEstudiante.html' %}
+
+{% block cuerpo2 %}
+<div class="container-fluid">
+    <div class="row">
+        {% include '1barraLateral.html' %}
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                {% for category, message in messages %}
+                Swal.fire({
+                    title: 'Notificación',
+                    text: {{ message| tojson | safe }},
+                icon: "{{ 'success' if category == 'success' else 'error' if category == 'error' else 'info' }}",
+                confirmButtonText: 'Aceptar'
+        });
+            {% endfor %}
+    });
+        </script>
+        {% endif %}
+        {% endwith %}
+
+        <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 col-xxl-10 px-1 margin">
+            <div class="container mt-2 py-1 px-3"
+                style="background-color: #f8f9fa; border-radius: 10px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);">
+                <h1 class="fs-4 text-center mb-4 p-3"
+                    style="background-color: #dc3545; color: white; border-radius: 8px;">
+                    Horario de Practicas Pre Profesionales del estudiante
+                </h1>
+                <div class="table-responsive">
+                    <table id="horarioTable" class="table table-bordered text-center horario-table">
+                        <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>Lunes</th>
+                                <th>Martes</th>
+                                <th>Miércoles</th>
+                                <th>Jueves</th>
+                                <th>Viernes</th>
+                                <th>Sábado</th>
+                                <th>Domingo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for hour in range(7, 22) %}
+                            <tr>
+                                <td>
+                                    {% if hour < 10 %} 0{{ hour }}:00 - {{ hour + 1 }}:00 {% else %} {{ hour }}:00 - {{
+                                        hour + 1 }}:00 {% endif %} </td>
+                                        {% for day in range(1, 8) %}
+                                <td class="horario-celda" data-hour="{{ hour }}" data-day="{{ day }}">
+                                    {% for dia, hora in horarios %}
+                                    {% if hora == hour and (dia == 'Lunes' and day == 1 or dia == 'Martes' and day == 2
+                                    or dia == 'Miércoles' and day == 3 or dia == 'Jueves' and day == 4 or dia ==
+                                    'Viernes' and day == 5 or dia == 'Sábado' and day == 6 or dia == 'Domingo' and day
+                                    == 7) %}
+                                    <span class="hora-texto">
+                                        {% if hour < 10 %} {{ hour }}:00 - {{ hour + 1 }}:00 {% else %} {{ hour }}:00 -
+                                            {{ hour + 1 }}:00 {% endif %} </span>
+                                            {% endif %}
+                                            {% endfor %}
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-end py-1">
+                    <button class="btn btn-success btn-lg" id="guardarBtn">
+                        <i class="bi bi-save"></i> Guardar
+                    </button>
+                    <button class="btn btn-warning btn-lg mx-2" id="limpiarBtn">
+                        <i class="bi bi-eraser"></i> Limpiar
+                    </button>
+                    <a href="{{ url_for('listaEmpresas') }}" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-arrow-left"></i> Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .table-responsive {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .horario-table {
+        width: 100%;
+        table-layout: fixed;/
+    }
+
+    .horario-table th,
+    .horario-table td {
+        padding: 8px;
+        font-size: 0.85rem;
+        height: 40px;
+        text-align: center;
+    }
+
+    .horario-celda {
+        position: relative;
+        cursor: pointer;
+        background-color: #f1f3f5;
+        transition: background-color 0.3s ease;
+        border-radius: 5px;
+        padding: 0;
+    }
+
+    .horario-celda:hover {
+        background-color: #e9ecef;
+    }
+
+    .celda-seleccionada {
+        background-color: #007bff !important;
+        color: white !important;
+    }
+
+    .hora-texto {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 10px;
+        font-weight: bold;
+        color: white;
+        display: none;
+    }
+
+    .horario-celda.celda-seleccionada .hora-texto {
+        display: block;
+    }
+</style>
+
+
+<script>
+    let horarios = {{ horarios| tojson }};
+    let horariosSeleccionados = [];
+
+    document.querySelectorAll(".horario-celda").forEach((celda) => {
+        celda.addEventListener("click", () => {
+            const dia = celda.getAttribute("data-day");
+            const hora = celda.getAttribute("data-hour");
+
+            const diaMapping = {
+                1: 'Lunes',
+                2: 'Martes',
+                3: 'Miércoles',
+                4: 'Jueves',
+                5: 'Viernes',
+                6: 'Sábado',
+                7: 'Domingo'
+            };
+
+            const diaSeleccionado = diaMapping[dia];
+
+            const indexSeleccionados = horariosSeleccionados.findIndex(
+                (horario) => horario.dia === diaSeleccionado && horario.hora === hora
+            );
+
+            const indexCargados = horarios.findIndex(
+                (horario) => horario[0] === diaSeleccionado && horario[1] == hora
+            );
+
+            if (indexSeleccionados > -1 || indexCargados > -1) {
+
+                if (indexSeleccionados > -1) {
+                    horariosSeleccionados.splice(indexSeleccionados, 1);
+                }
+
+                if (indexCargados > -1) {
+                    horarios.splice(indexCargados, 1);
+                }
+
+                celda.classList.remove("celda-seleccionada");
+                if (celda.querySelector(".hora-texto")) {
+                    celda.querySelector(".hora-texto").remove();
+                }
+            } else {
+                horariosSeleccionados.push({ dia: diaSeleccionado, hora });
+                celda.classList.add("celda-seleccionada");
+
+                const horaTexto = document.createElement("span");
+                horaTexto.classList.add("hora-texto");
+                horaTexto.textContent = `${hora}:00 - ${parseInt(hora) + 1}:00`;
+                celda.appendChild(horaTexto);
+            }
+
+            console.log("Horarios seleccionados:", horariosSeleccionados);
+            console.log("Horarios cargados (actualizados):", horarios);
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".horario-celda").forEach((celda) => {
+            const dia = celda.getAttribute("data-day");
+            const hora = celda.getAttribute("data-hour");
+
+            const diaMapping = {
+                1: 'Lunes',
+                2: 'Martes',
+                3: 'Miércoles',
+                4: 'Jueves',
+                5: 'Viernes',
+                6: 'Sábado',
+                7: 'Domingo'
+            };
+
+            const diaSeleccionado = diaMapping[dia];
+
+            const horarioExiste = horarios.some((horario) => horario[0] === diaSeleccionado && horario[1] == hora);
+            if (horarioExiste) {
+                celda.classList.add("celda-seleccionada");
+
+                const horaTexto = document.createElement("span");
+                horaTexto.classList.add("hora-texto");
+                horaTexto.textContent = `${hora}:00 - ${parseInt(hora) + 1}:00`;
+                celda.appendChild(horaTexto);
+            }
+        });
+    });
+
+    document.getElementById("guardarBtn").addEventListener("click", () => {
+        const horariosCombinados = [
+            ...horarios.map(h => ({ dia: h[0], hora: h[1] })),
+            ...horariosSeleccionados
+        ];
+
+        console.log("Horarios a guardar:", horariosCombinados);
+
+        fetch('/guardarHorario', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ horariosSeleccionados: horariosCombinados })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    // Recargar o redirigir para que se muestren los mensajes flash
+                    window.location.reload();
+                } else {
+                    alert("Error al guardar los horarios");
+                }
+            })
+            .catch(error => {
+                console.error("Error al guardar los horarios:", error);
+            });
+    });
+
+    document.getElementById("limpiarBtn").addEventListener("click", () => {
+        horariosSeleccionados = [];
+        horarios = [];
+
+        document.querySelectorAll(".horario-celda").forEach((celda) => {
+            celda.classList.remove("celda-seleccionada");
+
+            const horaTexto = celda.querySelector(".hora-texto");
+            if (horaTexto) {
+                horaTexto.remove();
+            }
+        });
+
+        console.log("Horarios seleccionados y cargados han sido limpiados.");
+        alert("Todos los horarios han sido limpiados.");
+    });
+</script>
+
+
+
+
+
+
+
+
+{% endblock cuerpo2 %}

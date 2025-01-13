@@ -1,0 +1,210 @@
+{% extends 'vistaEstudiante.html'%}
+{% block cuerpo2 %}
+<form action="{{url_for('guardar_inicialE',id=informe[0])}}" method="post" enctype="multipart/form-data">
+    <div class="container bd-highlight my-3 col-9" style="border: 2px solid #E33439; padding: 20px;">
+        <h1 style="text-align: center; font-family: Tahoma; font-size: 30px; color:white; background-color: #E33439;">
+            Informe inicial estudiante
+        </h1>
+        <br>
+        <fieldset class="d-grid gap-2 mb-4">
+            <div class="row">
+                <div class="col-md-6" style="font-family: Tahoma; font-size: 16px;">
+                    <div class="mb-3">
+                        <div class="row">
+                            <select class="form-control" id="estuIniEstudiante" name="estuIniEstudiante" hidden>
+                                <option value="">
+                                </option>
+                            </select>
+                            <div class="form-group">
+                                <label for="codSemIniEstudiante">Semestre Académico:</label>
+                                <select class="form-control" id="codSemIniEstudiante" name="codSemIniEstudiante"
+                                    required>
+                                    <option value="">----------</option>
+                                    {% for semestre in semestres %}
+                                    <option value="{{semestre[0]}}" {% if informe[2]==semestre[0] %}selected{% endif %}>
+                                        {{semestre[1]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="empIniEstudiante">Nombre de la Empresa/Institución:</label>
+                                <select class="form-control" id="empIniEstudiante" name="empIniEstudiante" required>
+                                    <option value="">----------</option>
+                                    {% for emp in empresa %}
+                                    <option value="{{emp[0]}}" {% if informe[3]==emp[0] %}selected{% endif %}>{{emp[1]}}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="resIniEstudiante">Persona de la Empresa/Institución responsable de la
+                                    práctica:</label>
+                                <select class="form-control" id="resIniEstudiante" name="resIniEstudiante" required>
+                                    <option value="">----------</option>
+                                    {% for resp in responsable %}
+                                    <option value="{{resp[0]}}" {% if informe[4]==resp[0] %}selected{% endif %}>
+                                        {{resp[2]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="aceptacionEmpresa">Objetivos de la practica:</label>
+                                <textarea class="form-control" id="aceptacionEmpresa" name="aceptacionEmpresa"
+                                    maxlength="400" style="height: 180px;"
+                                    required>{{ '' if informe[5] is none else informe[5] }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" style="font-family: Tahoma; font-size: 16px;">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="iniIniEstudiante">Docente:</label>
+                                    <select class="form-control" id="docente" name="docente" required>
+                                        <option value="">----------</option>
+                                        {% for docente in docentes %}
+                                        <option value="{{docente[0]}}" {% if informe[12]==docente[0] %}selected{% endif
+                                            %}>{{docente[1]}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="iniIniEstudiante">Fecha de inicio:</label>
+                                    <input type="date" class="form-control" id="iniIniEstudiante"
+                                        name="iniIniEstudiante" style="width: 200px;" value="{{informe[6]}}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="finIniEstudiante">Fecha de término:</label>
+                                    <input type="date" class="form-control" id="finIniEstudiante"
+                                        name="finIniEstudiante" style="width: 200px;" value="{{informe[7]}}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="firEstIniEstudiante">Firma del estudiante:</label><br>
+                            <input type="file" class="form-control-file" id="firEstIniEstudiante"
+                                name="firEstIniEstudiante" accept="image/*">
+                            <label>*Solo acepta imagen .png y .jpg</label>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="firResIniEstudiante">Firma y sello del responsable de la
+                                Empresa/Institución:</label>
+                            <input type="file" class="form-control-file" id="firResIniEstudiante"
+                                name="firResIniEstudiante" accept="image/*">
+                            <label>*Solo acepta imagen .png y .jpg</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table" id="tablaActividades">
+                    <thead>
+                        <tr>
+                            <th>Semana de Trabajo</th>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th>Actividad</th>
+                            <th>Horas</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if plan %}
+                        {% for semana, inicio, fin, actividad, hora in plan %}
+                        <tr>
+                            <td><input type="text" name="semTrabajo[]" value="{{ semana }}" required></td>
+                            <td><input type="date" name="iniTrabajo[]" value="{{ inicio }}" required></td>
+                            <td><input type="date" name="finTrabajo[]" value="{{ fin }}" required></td>
+                            <td><input type="text" name="actTrabajo[]" value="{{ actividad }}" required></td>
+                            <td><input type="number" name="horTrabajo[]" value="{{ hora }}" required></td>
+                            <td><button class="btn btn-danger" type="button" onclick="eliminarFila(this)">Eliminar</button></td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td><input type="text" name="semTrabajo[]" required></td>
+                            <td><input type="date" name="iniTrabajo[]" required></td>
+                            <td><input type="date" name="finTrabajo[]" required></td>
+                            <td><input type="text" name="actTrabajo[]" required></td>
+                            <td><input type="number" name="horTrabajo[]" required></td>
+                            <td><button class="btn btn-danger" type="button" onclick="eliminarFila(this)">Eliminar</button></td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <button class="btn btn-primary" type="button" onclick="agregarFila()">Agregar Fila</button>
+            </div>            
+            <div class="row">
+                <div class="form-group">
+                    {% if session['role'] == 'docente' or session['role'] == 'admin' %}
+                        <label for="obseIniEstudiante">Observaciones:</label>
+                        <textarea name="observaciones" id="observaciones" style="height: 150px;"
+                            class="form-control">{{ '' if informe[11] is none else informe[11] }}</textarea>
+                    {% elif session['role'] == 'estudiante' %}
+                        <label for="obseIniEstudiante">Observaciones:</label>
+                        <textarea name="observaciones" id="observaciones" style="height: 150px;"
+                            class="form-control" readonly>{{ '' if informe[11] is none else informe[11] }}</textarea>
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+        {% if rol!=1 %}
+        {% else %}
+        {% endif %}
+        <div class="d-flex justify-content-end my-2">
+            {% if rol !=1 %}
+            <a href="{{url_for('listaPPP')}}" class="btn btn-secondary me-2">Cancelar</a>
+            {% else %}
+            <a href="{{url_for('listarInformes')}}" class="btn btn-secondary me-2">Cancelar</a>
+            {% endif %}
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </div>
+</form>
+<script>
+    function agregarFila() {
+        const tabla = document.getElementById("tablaActividades").getElementsByTagName("tbody")[0];
+        const nuevaFila = `
+            <tr>
+                <td><input type="text" name="semTrabajo[]" required></td>
+                <td><input type="date" name="iniTrabajo[]" required></td>
+                <td><input type="date" name="finTrabajo[]" required></td>
+                <td><input type="text" name="actTrabajo[]" required></td>
+                <td><input type="number" name="horTrabajo[]" required></td>
+                <td><button class="btn btn-danger" type="button" onclick="eliminarFila(this)">Eliminar</button></td>
+            </tr>`;
+        tabla.insertAdjacentHTML('beforeend', nuevaFila);
+    }
+
+    function eliminarFila(boton) {
+        const fila = boton.parentNode.parentNode;
+        fila.parentNode.removeChild(fila);
+    }
+</script>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    {% for category, message in messages %}
+                    Swal.fire({
+                        title: 'Notificación',
+                        text: {{ message| tojson | safe }},
+                    icon: "{{ 'success' if category == 'success' else 'error' if category == 'error' else 'info' }}",
+                    confirmButtonText: 'Aceptar'
+        });
+                {% endfor %}
+    });
+            </script>
+            {% endif %}
+            {% endwith %}
+{% endblock cuerpo2 %}

@@ -1,0 +1,209 @@
+{% extends 'vistaDocente.html' %}
+
+{% block cuerpo2 %}
+<div class="container-fluid">
+    <div class="row">
+        {% include '1barraLateral.html' %}
+        <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 col-xxl-10 pe-0">
+            
+            {% include '2buscador.html' %}
+            
+            <div class="col-12 bd-highlight container-fluid w-100 my-2 mx-0 pe-4">
+                <div class="d-flex justify-content-between align-middle py-2 pb-0">
+                    <!-- Filtros -->
+                    <div class="d-block justify-content-start">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <b class="bi bi-funnel-fill" style="font-size: 13px;">Semestre</b>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="?">Todos</a></li>
+                                {% for semestre in semestres %}
+                                    <li><a class="dropdown-item" href="?semestre={{ semestre }}">{{ semestre }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <b class="bi bi-funnel-fill" style="font-size: 13px;">Estado</b>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="?estado=">Todos</a></li>
+                                <li><a class="dropdown-item" href="?estado=Activo">Activo</a></li>
+                                <li><a class="dropdown-item" href="?estado=NoActivo">No Activo</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de resultados -->
+                {% if datosReporte %}
+                    <div class="d-flex justify-content-between">
+                        <!-- Tabla -->
+                        <div class="col-6">
+                            <table class="table table-striped" style="background-color: whitesmoke;">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" style="width: 5%;">#</th>
+                                        <th scope="col">Semestre</th>
+                                        <th scope="col">Línea de Desarrollo</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for index, row in enumerate(datosReporte, start=1) %}
+                                        <tr>
+                                            <td>{{ index }}</td>
+                                            <td>{{ row[0] }}</td>
+                                            <td>{{ row[1] }}</td>
+                                            <td>{{ row[2] }}</td>
+                                            <td>
+                                                {% if row[3] == 'P' %}
+                                                    <span class="badge bg-success">Activo</span>
+                                                {% else %}
+                                                    <span class="badge bg-secondary">No Activo</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Gráfico -->
+                        <div class="col-6">
+                            <canvas id="reporteChart"></canvas>
+                        </div>
+                    </div>
+                {% else %}
+                    <h3 class="text-center my-4">No se encontraron resultados.</h3>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var datosReporte = {{ datosReporte | tojson }};
+
+    
+    var labels = [...new Set(datosReporte.map(row => row[0]))]; 
+    var data = labels.map(semestre => {
+        return datosReporte
+            .filter(row => row[0] === semestre)
+            .reduce((acc, row) => acc + row[2], 0); 
+    });
+
+    var ctx = document.getElementById('reporteChart').getContext('2d');
+    var reporteChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels, 
+            datasets: [{
+                label: 'Cantidad de Estudiantes',
+                data: data, 
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    /* JS auxiliar
+    var datosReporte = {{ datosReporte | tojson }};
+
+    
+    var labels = [...new Set(datosReporte.map(row => row[0]))]; 
+    var data = labels.map(semestre => {
+        return datosReporte
+            .filter(row => row[0] === semestre)
+            .reduce((acc, row) => acc + row[2], 0); 
+    });
+
+    var ctx = document.getElementById('reporteChart').getContext('2d');
+    var reporteChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels, 
+            datasets: [{
+                label: 'Cantidad de Estudiantes',
+                data: data, 
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    */
+/*
+    var datosReporte = {{ datosReporte | tojson }};
+
+    // Sumar todas las cantidades para calcular el porcentaje
+    var total = datosReporte.reduce((acc, row) => acc + row[2], 0);
+
+    // Extraer los semestres únicos y calcular los porcentajes
+    var labels = [...new Set(datosReporte.map(row => row[0]))];
+    var data = labels.map(semestre => {
+        var sumaSemestre = datosReporte
+            .filter(row => row[0] === semestre)
+            .reduce((acc, row) => acc + row[2], 0);
+        return (sumaSemestre / total) * 100; // Convertir a porcentaje
+    });
+
+    // Configurar el gráfico
+    var ctx = document.getElementById('reporteChart').getContext('2d');
+    var reporteChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels, // Etiquetas
+            datasets: [{
+                label: 'Porcentaje de Estudiantes',
+                data: data, // Porcentajes
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%'; // Mostrar el porcentaje
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.raw.toFixed(2) + '%'; // Mostrar porcentaje en tooltip
+                        }
+                    }
+                }
+            }
+        }
+    });*/
+</script>
+{% endblock cuerpo2 %}

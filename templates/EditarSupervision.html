@@ -1,0 +1,215 @@
+{% extends 'vistaDocente.html' %}
+{% block style %}
+<style>
+    .container-form {
+        border: 2px solid #E33439;
+        padding: 20px;
+        margin: 0 auto;
+        max-width: 900px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 40px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+    }
+
+    .container-form h1 {
+        text-align: center;
+        font-family: Tahoma, sans-serif;
+        font-size: 30px;
+        color: white;
+        background-color: #E33439;
+        padding: 15px;
+        width: 100%;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        width: 100%;
+        max-width: 850px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .form-control,
+    .form-select {
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+        width: 100%;
+        max-width: 850px;
+    }
+
+    .btn-cancel {
+        background-color: #6c757d;
+        color: white !important;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-cancel:hover {
+        background-color: #5a6268;
+    }
+
+    .btn-save {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-save:hover {
+        background-color: #0069d9;
+    }
+</style>
+{% endblock style %}
+
+{% block cuerpo2 %}
+<div class="container-form">
+    <h1>Editar supervisión</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        <div class="form-grid">
+            <!-- Primera columna -->
+            <div>
+                <div class="form-group">
+                    <label for="estudiante">Estudiante:</label>
+                    <input type="text" class="form-control" id="estudiante_display"
+                        value="{% for estudiante_item in estudiantes %}{% if estudiante_item[0] == supervisioon[1] %}{{ estudiante_item[2] }}{% endif %}{% endfor %}"
+                        readonly>
+                    <input type="hidden" name="estudiante" value="{{ supervisioon[1] }}">
+                </div>               
+
+                <div class="form-group">
+                    <label for="empresa">Empresa:</label>
+                    <select class="form-control" id="empresa" name="superEmpr" required>
+                        <option value="" disabled selected>----------</option>
+                        {% for empresa_item in empresa %}
+                            <option value="{{ empresa_item[0] }}">{{ empresa_item[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ubicacion">Lugar:</label>
+                    <input type="text" class="form-control" id="ubicacion" name="ubicacion"
+                        value="{{ supervisioon[6] if supervisioon }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="area_desempenio">Área de Desempeño:</label>
+                    <input type="text" class="form-control" id="area_desempenio" name="area_desempenio"
+                        value="{{ supervisioon[7] if supervisioon }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="responsable">Responsable:</label>
+                    <select class="form-select" id="responsable" name="responsable" required>
+                        <option value="" disabled selected>----------</option>
+                        {% for responsable in responsable %}
+                        <option value="{{responsable[0]}}">{{responsable[1]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="funciones">Funciones:</label>
+                    <textarea class="form-control" id="funciones" name="funciones" style="height: 200px; width: 100%;"
+                        required>{{ supervisioon[9] if supervisioon }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="observaciones">Observaciones:</label>
+                    <textarea class="form-control" id="observaciones" name="observaciones"
+                        style="height: 200px; width: 100%;" required>{{ supervisioon[10] if supervisioon }}</textarea>
+                </div>
+            </div>
+
+            <!-- Segunda columna para firmas -->
+            <div>
+                <div class="form-group">
+                    <label>Firma del practicante:</label>
+                    <input type="file" class="form-control" name="firmaEstu" accept="image/*" required>
+                    {% if supervisioon and supervisioon[11] %}
+                    <p>Firma actual:</p>
+                    <img src="{{ url_for('static', filename='uploads/firmas/' + supervisioon[11]) }}"
+                        alt="Firma Practicante" style="width: 150px; border: 1px solid #ddd; padding: 5px;">
+                    {% endif %}
+                    <small>*Solo acepta en formato .png y .jpg</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Firma y sello del responsable de la Empresa/Institución:</label>
+                    <input type="file" class="form-control" name="firmaJefe" accept="image/*" required>
+                    {% if supervisioon and supervisioon[12] %}
+                    <p>Firma actual:</p>
+                    <img src="{{ url_for('static', filename='uploads/firmas/' + supervisioon[12]) }}"
+                        alt="Firma Responsable" style="width: 150px; border: 1px solid #ddd; padding: 5px;">
+                    {% endif %}
+                    <small>*Solo acepta en formato .png y .jpg</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Firma del Docente:</label>
+                    <input type="file" class="form-control" name="firmaDoce" accept="image/*" required>
+                    {% if supervisioon and supervisioon[13] %}
+                    <p>Firma actual:</p>
+                    <img src="{{ url_for('static', filename='uploads/firmas/' + supervisioon[13]) }}"
+                        alt="Firma Docente" style="width: 150px; border: 1px solid #ddd; padding: 5px;">
+                    {% endif %}
+                    <small>*Solo acepta en formato .png y .jpg</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <a href="{{ url_for('listaSuper') }}" class="btn-cancel">Cancelar</a>
+            <button type="submit" class="btn-save">Guardar Cambios</button>
+        </div>
+    </form>
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        {% for category, message in messages %}
+        Swal.fire({
+            title: 'Notificación',
+            text: {{ message| tojson | safe }},
+        icon: "{{ 'success' if category == 'success' else 'error' if category == 'error' else 'info' }}",
+        confirmButtonText: 'Aceptar'
+});
+    {% endfor %}
+});
+</script>
+{% endif %}
+{% endwith %}
+{% endblock cuerpo2 %}

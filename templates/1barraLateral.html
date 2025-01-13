@@ -1,0 +1,358 @@
+{% block style %}
+<style>
+    /* Estilos de la barra lateral */
+    #barra {
+        padding-top: 20px;
+        padding-left: 0px;
+        padding-right: 10px;
+        max-height: 600px;
+        overflow-y: auto;
+        height: 600px;
+    }
+
+    /*Cambios*/
+
+    #barra li {
+        background-color: #c20808;
+        /* Color de fondo de los elementos de la lista */
+        margin: 0px 0;
+        /* Espaciado entre los elementos */
+    }
+
+    #barra a {
+        color: #fff;
+        /* Color del texto de los enlaces */
+        text-decoration: none;
+        /* Sin subrayado */
+        display: block;
+        padding: 10px 15px;
+        /* Espaciado interno más pequeño */
+        transition: background-color 0.3s ease;
+        font-size: 0.9rem;
+        /* Tamaño de fuente más pequeño */
+    }
+
+
+    .nav-mpo-title {
+        padding-top: 10px;
+        text-align: left;
+        font-size: 1.2rem;
+        /* Tamaño de fuente más pequeño */
+        font-weight: bold;
+        color: #ffffff;
+        /* Color del título */
+        /*border: 30px;*/
+    }
+
+    .navbar-lista {
+        background-color: #c20808;
+        /* Fondo de la barra lateral */
+        padding-bottom: 20px;
+        /* Menos padding inferior */
+        color: #fff;
+        /* Color de texto general */
+    }
+
+    .navbar-toggler {
+        background-color: #c20808;
+        /* Color del botón de colapso */
+        color: #fff;
+        /* Color del texto */
+        font-size: 0.9rem;
+        /* Tamaño de fuente más pequeño */
+    }
+
+    .list-group-item {
+        padding-left: 0px;
+    }
+
+    #titulo-academico {
+        color: white;
+        font-weight: bold;
+        height: 50px;
+    }
+
+    .collapse-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .rotated {
+        transform: rotate(90deg);
+    }
+</style>
+{% endblock style %}
+
+<nav class="navbar navbar-light bg-light col-sm-12 col-md-12 col-lg-2 col-xl-2 col-xxl-2"
+    style="padding-top: 0px;height: 100%;">
+    <div class="navbar-collapse navbar-lista card-header" style="height: 100%;">
+        <ul class="list-group lista nav-pills ms-2" id="barra">
+            <div class="navbar-toggler d-flex align-items-center justify-content-center" id="titulo-academico">
+                <a href="">{{nombre}}</a>
+            </div>
+            <div class="nav-mpo-title" id="lista">
+                {% if nombre == 'MÓDULO ACADÉMICO' and session['role'] == 'docente' %}
+                <li class="list-group-item py-1"><a class="nav-link" href="../inicio-docente" class="active">Inicio</a></li>
+                <li class="list-group-item d-flex  align-items-center py-3">
+                    <i class="fa-solid fa-caret-right mr-2 collapse-icon mx-2" style="color: white;"></i>
+                    <a class="nav-link p-0" href="#section1" data-bs-toggle="collapse" aria-expanded="false"
+                        aria-controls="section1">Estudiante</a>
+                </li>
+                <div class="collapse" id="section1">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-user-graduate ms-4"></i>
+                        <a class="ms-0" href="{{url_for('listaEstudiante')}}" class="pl-4">Gestionar estudiante</a>
+                    </div>
+                </div>
+                <li class="list-group-item d-flex  align-items-center py-3">
+                    <i class="fa-solid fa-caret-right mr-2 collapse-icon mx-2" style="color: white;"></i>
+                    <a class="nav-link p-0" href="#section2" data-bs-toggle="collapse" aria-expanded="false"
+                        aria-controls="section1">Unidad academica</a>
+                </li>
+                <div class="collapse" id="section2">
+                    <div class="d-flex align-items-center">
+                        <li class="fa-solid fa-user-graduate ms-4"></li><a class="ms-0" href="{{url_for('listaFacultad')}}">Gestionar facultad</a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <li class="fa-solid fa-user-graduate ms-4"></li><a class="ms-0" href="{{url_for('listaEscuela')}}">Escuela profesional</a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <li class="fa-solid fa-user-graduate ms-4"></li><a class="ms-0" href="{{url_for('listaSemestre')}}">Semestre académico</a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        
+                    </div>
+                </div>
+                <!-- <li class="list-group-item py-1"><a class="nav-link" href="../listaPlan">Plan de Estudio</a></li> -->
+                <!-- <li class="list-group-item py-1"><a class="nav-link" href="../listaSemestre">Semestre Académico</a></li> -->
+                {% endif %}
+
+                {% if nombre == 'MÓDULO PPP' and session['role'] == 'docente' %}
+                <div class="sidebar">
+                    <li class="list-group-item py-0"><a class="nav-link py-2" href="{{url_for('inicioDocente')}}" class="active">Inicio</a></li>
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="fa-solid fa-caret-right mr-2 collapse-icon mx-2" style="color: white;"></i>
+                        <a class="nav-link p-0" href="#section2" data-bs-toggle="collapse" aria-expanded="false"
+                            aria-controls="section2">Practicas pre-profesionales</a>
+                    </li>
+                    <div class="collapse" id="section2">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('listaPPP')}}" class="pl-4">Gestionar PPP</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('listaSuper')}}" class="pl-4">Gestionar supervisiones</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <li class="fa-solid fa-user-graduate ms-4"></li><a class="ms-0" href="../listaLinea">Linea de desarrollo</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <li class="fa-solid fa-user-graduate ms-4"></li><a class="ms-0" href="../reporte_cantidad_linea">Reporte cantidad de PPPs Linea</a>
+                        </div>
+                    </div>
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="fa-solid fa-caret-right mr-2 collapse-icon mx-2" style="color: white;"></i>
+                        <a class="nav-link p-0" href="#section3" data-bs-toggle="collapse" aria-expanded="false"
+                            aria-controls="section1">Empresa</a>
+                    </li>
+                    <div class="collapse" id="section3">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('listaEmpresasDoc')}}">Gestionar empresa</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('listaResponsablesDoc')}}".>Gestionar responsable</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('relacionEmpresaResponsable')}}".>Relacionar empresa y responsable</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('listarEmpresasReporte')}}".>Reporte cant. estudiantes por empresa</a>
+                        </div>
+                    </div>
+
+                    <div class="collapse" id="section22">
+                        
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if nombre=='GESTIONAR PPP' %}
+                <div class="sidebar">
+                    <li class="list-group-item py-0"><a class="nav-link py-2" href="{{url_for('inicioEstudiante')}}" class="active">Inicio</a></li>
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="fa-solid fa-caret-right mr-2 collapse-icon mx-2" style="color: white;"></i>
+                        <a class="nav-link p-0" href="#section1" data-bs-toggle="collapse" aria-expanded="false"
+                            aria-controls="section1">Gestionar PPP</a>
+                    </li>
+                    <div class="collapse" id="section1">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('listarInformes')}}">Practicas
+                                pre-profesionales</a>
+                        </div>
+                    </div>
+                    <div class="collapse" id="section1">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('horario')}}">Horario</a>
+                        </div>
+                    </div>
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="fa-solid fa-caret-right mr-2 collapse-icon mx-2" style="color: white;"></i>
+                        <a class="nav-link p-0" href="#section3" data-bs-toggle="collapse" aria-expanded="false"
+                            aria-controls="section1">Empresa</a>
+                    </li>
+                    <div class="collapse" id="section3">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('listaEmpresas')}}">Gestionar empresa</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('listaResponsables')}}".>Gestionar responsable</a>
+                        </div>
+                    </div>
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="fa-solid fa-caret-right mr-2 collapse-icon mx-2" style="color: white;"></i>
+                        <a class="nav-link p-0" href="#section2" data-bs-toggle="collapse" aria-expanded="true"
+                            aria-controls="section1">Mis Datos</a>
+                    </li>
+                    <div class="collapse" id="section2">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-user-graduate ms-4"></i>
+                            <a class="ms-0" href="{{url_for('misDatos')}}" class="pl-4">Estudiante</a>
+                        </div>
+                    </div>
+                    
+                </div>
+                {% endif %}
+
+                {% if nombre == 'MÓDULO ACADÉMICO' and session['role'] == 'admin' %}
+                <li class="list-group-item py-1"><a class="nav-link" href="{{url_for('inicioAdministrador')}}" class="active">Inicio</a></li>
+                <li class="list-group-item d-flex  align-items-center py-3">
+                    <i class="fa-solid fa-caret-right mr-2 collapse-icon mx-2" style="color: white;"></i>
+                    <a class="nav-link p-0" href="#section1" data-bs-toggle="collapse" aria-expanded="false"
+                        aria-controls="section1">Estudiante</a>
+                </li>
+                <div class="collapse" id="section1">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-user-graduate ms-4"></i>
+                        <a class="ms-0" href="{{url_for('listaEstudiante')}}" class="pl-4">Gestionar estudiante</a>
+                    </div>
+                </div>
+                <li class="list-group-item d-flex  align-items-center py-3">
+                    <i class="fa-solid fa-caret-right mr-2 collapse-icon mx-2" style="color: white;"></i>
+                    <a class="nav-link p-0" href="#section2" data-bs-toggle="collapse" aria-expanded="false"
+                        aria-controls="section1">Unidad academica</a>
+                </li>
+                <div class="collapse" id="section2">
+                    <div class="d-flex align-items-center">
+                        <li class="fa-solid fa-user-graduate ms-4"></li><a class="ms-0" href="{{url_for('listaFacultad')}}">Gestionar facultad</a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <li class="fa-solid fa-user-graduate ms-4"></li><a class="ms-0" href="{{url_for('listaEscuela')}}">Escuela profesional</a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <li class="fa-solid fa-user-graduate ms-4"></li><a class="ms-0" href="{{url_for('listaSemestre')}}">Semestre académico</a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        
+                    </div>
+                </div>
+                <!-- <li class="list-group-item py-1"><a class="nav-link" href="../listaPlan">Plan de Estudio</a></li> -->
+                <!-- <li class="list-group-item py-1"><a class="nav-link" href="../listaSemestre">Semestre Académico</a></li> -->
+                
+                {% endif %}
+
+
+                {% if nombre == 'MÓDULO PPP' and session['role'] == 'admin' %}
+                <div class="sidebar">
+                    <li class="list-group-item py-0"><a class="nav-link py-2" href="{{url_for('inicioAdministrador')}}" class="active">Inicio</a></li>
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="fa-solid fa-caret-right mr-2 collapse-icon mx-2" style="color: white;"></i>
+                        <a class="nav-link p-0" href="#section2" data-bs-toggle="collapse" aria-expanded="false"
+                            aria-controls="section2">Practicas pre-profesionales</a>
+                    </li>
+                    <div class="collapse" id="section2">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('listaPPP')}}" class="pl-4">Gestionar PPP</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('listaSuper')}}" class="pl-4">Gestionar supervisiones</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <li class="fa-solid fa-user-graduate ms-4"></li><a class="ms-0" href="../listaLinea">Linea de desarrollo</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <li class="fa-solid fa-user-graduate ms-4"></li><a class="ms-0" href="../reporte_cantidad_linea">Reporte Cantidad de PPPs Linea</a>
+                        </div>
+                    </div>
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="fa-solid fa-caret-right mr-2 collapse-icon mx-2" style="color: white;"></i>
+                        <a class="nav-link p-0" href="#section3" data-bs-toggle="collapse" aria-expanded="false"
+                            aria-controls="section1">Empresa</a>
+                    </li>
+                    <div class="collapse" id="section3">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('listaEmpresasDoc')}}">Gestionar empresa</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('listaResponsablesDoc')}}".>Gestionar Responsable</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('relacionEmpresaResponsable')}}".>Relacionar empresa y responsable</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-book ms-4"></i>
+                            <a class="ms-0" href="{{url_for('listarEmpresasReporte')}}".>Reporte cant. estudiantes por empresa</a>
+                        </div>
+                    </div>
+
+                    <div class="collapse" id="section22">
+                        
+                    </div>
+                </div>
+                {% endif %}
+
+
+                {% if nombre == 'MÓDULO PERSONAL' and session['role'] == 'admin' %}
+                <div class="sidebar">
+                    <li class="list-group-item py-1"><a class="nav-link" href="{{url_for('inicioAdministrador')}}" class="active">INICIO</a></li>
+                
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="fa-solid fa-caret-right mr-2 collapse-icon mx-2" style="color: white;"></i>
+                        <a class="nav-link p-0" href="#section5" data-bs-toggle="collapse" aria-expanded="false"
+                            aria-controls="section1">Docente</a>
+                    </li>
+                    <div class="collapse" id="section5">
+                        <div class="d-flex align-items-center">
+                            <li class="fa-solid fa-user-graduate ms-4"></li><a class="ms-0" href="{{url_for('listaDocentes')}}">Gestionar docente</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                {% endif %}
+
+            </div>
+        </ul>
+    </div>
+</nav>
+
+<script>
+    document.querySelectorAll('.nav-link[data-bs-toggle="collapse"]').forEach(link => {
+        link.addEventListener('click', function () {
+            const icon = this.previousElementSibling;
+            icon.classList.toggle('rotated');
+        });
+    });
+</script>

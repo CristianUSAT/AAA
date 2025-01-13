@@ -1,0 +1,97 @@
+{% extends 'vistaEstudiante.html' %}
+{% block cuerpo2 %}
+<form action="{{url_for('guardar_ppp',id=ppp[0])}}" method="post" enctype="multipart/form-data">
+    <div class="container bd-highlight my-3 col-9" style="border: 2px solid #E33439; padding: 20px;">
+        <h1 style="text-align: center; font-family: Tahoma; font-size: 30px; color:white; background-color: #E33439;">
+            Editar PPP
+        </h1>
+        <br>
+        <fieldset class="d-grid gap-2 mb-4">
+            <div class="row">
+                <!-- Columna izquierda -->
+                <div class="col-md-6" style="font-family: Tahoma; font-size: 16px;">
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="semestreI">Semestre de Inicio:</label>
+                            <select name="semestreI" class="form-control" id="">
+                                <option value="">----------</option>
+                                {% for sem in semestre %}
+                                <option value="{{sem[0]}}" {% if sem[0]==ppp[2] %} selected {% endif %}>{{sem[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="semestreF">Semestre de Fin:</label>
+                            <select name="semestreF" class="form-control" id="">
+                                <option value="">----------</option>
+                                {% for sem in semestre %}
+                                <option value="{{sem[0]}}" {% if sem[0]==ppp[3] %} selected {% endif %}>{{sem[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="horas">Horas:</label>
+                            <input type="number" class="form-control" id="horas" name="horas" value="{{ppp[6]}}" maxlength="150" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="iniPPP">Fecha de Inicio:</label>
+                            <input type="date" class="form-control" id="iniPPP" name="iniPPP" value="{{ppp[7]}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="finPPP">Fecha de Fin:</label>
+                            <input type="date" class="form-control" id="finPPP" name="finPPP" value="{{ppp[8]}}" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna derecha -->
+                <div class="col-md-6" style="font-family: Tahoma; font-size: 16px;">
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="codLinPPP">Código de la Línea de Desarrollo:</label>
+                            <select name="linea" class="form-control" id="">
+                                <option value="">----------</option>
+                                {% for li in linea %}
+                                <option value="{{li[0]}}" {% if li[0]==ppp[9] %} selected {% endif %}>{{li[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="arePPP">Área de la PPP:</label>
+                            <input type="text" class="form-control" id="arePPP" name="arePPP" value="{{ '' if ppp[10] is none else ppp[10] }}" maxlength="150" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="codDocentePPP">Docente de apoyo:</label>
+                            <select name="docente" class="form-control" id="">
+                                <option value="">----------</option>
+                                {% for doc in docente %}
+                                <option value="{{doc[0]}}" {% if doc[0]==ppp[13] %} selected {% endif %}>{{doc[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="d-flex justify-content-end my-2">
+            {% if rol !=1 %}
+            <a href="{{url_for('listaPPP')}}" class="btn btn-secondary me-2">Cancelar</a>
+            {% else %}
+            <a href="{{url_for('listarInformes')}}" class="btn btn-secondary me-2">Cancelar</a>
+            {% endif %}
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </div>
+</form>
+{% if error_message %}
+<script>
+    Swal.fire({
+        title: 'Error',
+        text: "{{ error_message }}",
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+    });
+</script>
+{% endif %}
+
+{% endblock cuerpo2 %}

@@ -1,0 +1,284 @@
+{% extends 'vistaDocente.html' %}
+{% block style %}
+<style>
+    .desplegar {
+        transition: 0.5s ease;
+    }
+</style>
+{% endblock style %}
+
+{% block cuerpo2 %}
+<div class="container-fluid">
+    <div class="row">
+        {% include '1barraLateral.html' %}
+        <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 col-xxl-10 pe-0">
+
+            {% include '2buscador.html' %}
+
+            <form method="post" enctype="multipart/form-data" action="">
+
+                <div class="col-12 bd-highlight container-fluid w-100 my-2 mx-0">
+                    <div class="d-flex justify-content-between align-middle py-2 pb-0">
+                        <div class="d-block justify-content-start">
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <b class="bi bi-funnel-fill" style="font-size: 13px;"> Escuela profesional</b>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="?id">Todos</a></li>
+                                    {% for i in escuelas %}
+                                    <li><a class="dropdown-item"
+                                            href="?nomEscuela={{ i[1] }}&dir={{next_dir}}&page={{page}}&columna=1&page={{total_pages}}">{{
+                                            i[1] }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="btn-group me-2">
+                                <!-- <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <b class="bi bi-funnel-fill" style="font-size: 13px;"> Estado</b>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="?id">Todos</a></li>
+                                    <li><a class="dropdown-item" href="?estEstudiante=1">Activo</a></li>
+                                    <li><a class="dropdown-item" href="?estEstudiante=0">No activo</a></li>
+                                </ul> -->
+                            </div>
+                        </div>
+
+                        <nav>
+                            <ul class="pagination">
+                                {% if page > 1 %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page=1&columna=1&page={{total_pages}}&buscar={{buscar}}"
+                                        style="font-size: 13px;">Inicio</a>
+                                </li>
+                                {% endif %}
+                                {% if page > 1 %}
+                                <li class="page-item">
+                                    <a class="page-link" style="font-size: 13px;"
+                                        href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{page-1}}&columna=1&page={{total_pages}}">Anterior</a>
+                                </li>
+                                {% endif %}
+                                {% for p in range(1, total_pages + 1) %}
+                                <li class="page-item {% if p == page %}active{% endif %}">
+                                    <a class="page-link" style="font-size: 13px;"
+                                        href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{p}}&columna=1&page={{total_pages}}">{{
+                                        p }}</a>
+                                </li>
+                                {% endfor %}
+                                {% if page < total_pages %} <li class="page-item">
+                                    <a class="page-link" style="font-size: 13px;"
+                                        href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{page+1}}&columna=1&page={{total_pages}}">Siguiente</a>
+                                    </li>
+                                    {% endif %}
+                                    {% if page < total_pages %} <li class="page-item">
+                                        <a class="page-link" style="font-size: 13px;"
+                                            href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{total_pages}}&columna=1&page={{total_pages}}">Fin</a>
+                                        </li>
+                                        {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+
+                    {% if lista %}
+                    <table class="table table-striped mt-0 table-supervision">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Código</th>
+                                <th>Apellidos y Nombres</th>
+                                <th>Estado</th>
+                                <th class="acciones-cell">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for elemento in lista %}
+                            <tr>
+                                <td><a role="button" href="#sectionPPP{{elemento[0]}}" data-bs-toggle="collapse"
+                                        aria-expanded="false" aria-controls="sectionPPP{{elemento[0]}}">
+                                        <i class="fa-solid fa-book-open-reader"></i>
+                                    </a></td>
+                                <td>{{ elemento[1] }}</td>
+                                <td>{{ elemento[2] }}</td>
+                                <td>{% if elemento[7] %}Activo{% else %}No activo{% endif %}</td>
+                                <td class="acciones-cell">
+                                    <div class="btn-group">
+                                        {% include 'modales.html' %}
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#myModal{{elemento[0]}}"
+                                            class="btn btn-info" title="Visualizar">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="5" class="py-0 px-0 border-0">
+                                    <div id="sectionPPP{{elemento[0]}}" class="collapse collapse-content">
+                                        <table class="table table-striped mt-2">
+                                            <thead>
+                                                <tr>
+                                                    <th class="align-middle col-2">Numero de PPP</th>
+                                                    <th class="align-middle col-3">Fecha inicial</th>
+                                                    <th class="align-middle col-3">Fecha final</th>
+                                                    <th class="align-middle col-2">Horas PPP</th>
+                                                    <th class="align-middle col-1">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for pp in ppp_lista if pp.estudiante_id == elemento[0] %}
+                                                <tr>
+                                                    <td>{{ pp.numeroPPP }}</td>
+                                                    <td>{{ pp.iniPPP }}</td>
+                                                    <td>{{ pp.finPPP }}</td>
+                                                    <td>{{ pp.horas }}</td>
+                                                    <td class="acciones-cell">
+                                                        <div class="btn-group">
+                                                            <a href="{{ url_for('nueva_supervision', superEstu=pp.estudiante_id, superPPP=pp.ppp_id) }}"
+                                                                class="btn btn-primary" title="Agregar">
+                                                                <i class="bi bi-plus-circle-fill"></i>
+                                                            </a>
+                                                            <a role="button" data-bs-toggle="collapse"
+                                                                href="#supervisionesPPP{{ pp.ppp_id }}"
+                                                                aria-expanded="false"
+                                                                aria-controls="supervisionesPPP{{ pp.ppp_id }}"
+                                                                class="btn btn-secondary" title="Ver Supervisiones">
+                                                                <i class="bi bi-list-ul"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6" class="border-0">
+                                                        <div class="table-container"
+                                                            id="supervisionesPPP{{ pp.ppp_id }}"
+                                                            class="collapse collapse-content">
+                                                            <table class="table table-striped mt-2"
+                                                                class="table table-striped mt-0 table-supervision">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style="width: 20%;">Supervisión</th>
+                                                                        <th style="width: 35%;">Fecha</th>
+                                                                        <th style="width: 35%;">Hora</th>
+                                                                        <th style="width: 10%;" class="acciones-cell">
+                                                                            Acciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {% if pp.supervisiones %}
+                                                                    {% for supervision in pp.supervisiones %}
+                                                                    <tr>
+                                                                        <td>{{ supervision[0] }}</td>
+                                                                        <!-- Número de Supervisión -->
+                                                                        <td>{{ supervision[1] }}</td> <!-- Fecha -->
+                                                                        <td>{{ supervision[2] }}</td> <!-- Hora -->
+                                                                        <td class="acciones-cell">
+                                                                            <div class="btn-group" role="group">
+                                                                                <!-- Botón Observación -->
+                                                                                <a href="{{ url_for('ver_supervision', id=supervision[3]) }}" class="btn btn-info btn-sm rounded mx-1" title="Visualizar">
+                                                                                    <i class="bi bi-eye-fill"></i>
+                                                                                </a>
+                                                                                <!-- Botón Editar -->
+                                                                                <a href="{{ url_for('editar_supervision', id=supervision[3]) }}"
+                                                                                    class="btn btn-primary btn-sm rounded mx-1"
+                                                                                    title="Editar">
+                                                                                    <i class="bi bi-pencil-square"></i>
+                                                                                </a>
+
+                                                                                <!-- Botón Eliminar -->
+                                                                                    <a href="#"
+                                                                                    class="btn btn-danger btn-sm rounded mx-1"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#modal-eliminar-super{{supervision[3]}}"
+                                                                                    title="Eliminar">
+                                                                                    <i class="bi bi-trash-fill"></i>
+                                                                                    </a>
+
+                                                                                    <!-- Modal -->
+                                                                                    <div class="modal fade"
+                                                                                    id="modal-eliminar-super{{supervision[3]}}"
+                                                                                    tabindex="-1"
+                                                                                    role="dialog"
+                                                                                    aria-labelledby="modalLabel{{supervision[3]}}"
+                                                                                    aria-describedby="modalDesc{{supervision[3]}}"
+                                                                                    aria-hidden="true">
+                                                                                    <div class="modal-dialog" role="document">
+                                                                                        <div class="modal-content">
+                                                                                            <!-- Formulario dentro del modal -->
+                                                                                            <form action="{{ url_for('eliminar_supervision', id=supervision[3]) }}" method="post">
+                                                                                                <div class="modal-header">
+                                                                                                    <h5 class="modal-title" id="modalLabel{{supervision[3]}}">
+                                                                                                        ¿Estás seguro de eliminar esta supervisión?
+                                                                                                    </h5>
+                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                                                                                </div>
+                                                                                                <div class="modal-body" id="modalDesc{{supervision[3]}}">
+                                                                                                    Esta acción no se puede deshacer.
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    </div>
+
+
+                                                                            </div>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                    {% endfor %}
+                                                                    {% else %}
+                                                                    <tr>
+                                                                        <td colspan="4">No hay supervisiones registradas
+                                                                        </td>
+                                                                    </tr>
+                                                                    {% endif %}
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                {% endfor %}
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <h3>No se encontraron resultados... :'(</h3>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        {% for category, message in messages %}
+        Swal.fire({
+            title: 'Notificación',
+            text: {{ message| tojson | safe }},
+        icon: "{{ 'success' if category == 'success' else 'error' if category == 'error' else 'info' }}",
+        confirmButtonText: 'Aceptar'
+});
+    {% endfor %}
+});
+</script>
+{% endif %}
+{% endwith %}
+{% endblock cuerpo2 %}

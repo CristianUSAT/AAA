@@ -1,0 +1,315 @@
+{% extends 'vistaDocente.html'%}
+{% block style %}
+<style>
+    .desplegar {
+        transition: 0.5s ease;
+    }
+</style>
+{% endblock style %}
+{% block cuerpo2 %}
+<div class="container-fluid">
+    <div class="row">
+        {% include '1barraLateral.html'%}
+        <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 col-xxl-10 pe-0">
+
+            {% include '2buscador.html' %}
+
+            <form method="post" enctype="multipart/form-data" action="">
+
+                <div class="col-12 bd-highlight container-fluid w-100 my-2 mx-0">
+                    <div class="d-flex justify-content-between align-middle py-2 pb-0">
+                        <div class="d-block justify-content-start">
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <b class="bi bi-funnel-fill" style="font-size: 13px;"> Escuela profesional</b>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="?id">Todos</a></li>
+                                    {% for i in escuelas %}
+                                    <li><a class="dropdown-item"
+                                            href="?nomEscuela={{ i[1] }}&dir={{next_dir}}&page={{page}}&columna=1&page={{total_pages}}">{{
+                                            i[1]
+                                            }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <b class="bi bi-funnel-fill" style="font-size: 13px;"> Estado</b>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="?id">Todos</a></li>
+                                    <li><a class="dropdown-item" href="?estEstudiante=1">Activo</a></li>
+                                    <li><a class="dropdown-item" href="?estEstudiante=0">No activo</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <nav>
+                            <ul class="pagination">
+                                {% if page > 1 %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page=1&columna=1&page={{total_pages}}&buscar={{buscar}}"
+                                        style="font-size: 13px;">Inicio</a>
+                                </li>
+                                {% endif %}
+                                {% if page > 1 %}
+                                <li class="page-item">
+                                    <a class="page-link" style="font-size: 13px;"
+                                        href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{page-1}}&columna=1&page={{total_pages}}">Anterior</a>
+                                </li>
+                                {% endif %}
+                                {% for p in range(1, total_pages + 1) %}
+                                <li class="page-item {% if p == page %}active{% endif %}">
+                                    <a class="page-link" style="font-size: 13px;"
+                                        href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{p}}&columna=1&page={{total_pages}}">{{
+                                        p }}</a>
+                                </li>
+                                {% endfor %}
+                                {% if page < total_pages %} <li class="page-item">
+                                    <a class="page-link" style="font-size: 13px;"
+                                        href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{page+1}}&columna=1&page={{total_pages}}">Siguiente</a>
+                                    </li>
+                                    {% endif %}
+                                    {% if page < total_pages %} <li class="page-item">
+                                        <a class="page-link" style="font-size: 13px;"
+                                            href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{total_pages}}&columna=1&page={{total_pages}}">Fin</a>
+                                        </li>
+                                        {% endif %}
+                            </ul>
+                        </nav>
+
+                    </div>
+                    {% if lista %}
+                    <table class="table table-striped mt-0" style="background-color: whitesmoke;">
+                        <thead>
+                            <th class="align-middle col-1" scope="col"><a href="#">#</a></th>
+                            <th class="align-middle col-2" scope="col"><a
+                                    href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{page}}&columna=1&page={{total_pages}}">Código</a>
+                            </th>
+                            <th class="align-middle col-6" scope="col"><a
+                                    href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{page}}&columna=2&page={{total_pages}}">Apellidos
+                                    y Nombres</a></th>
+                            <th class="align-middle col-2" scope="col"><a
+                                    href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{page}}&columna=7&page={{total_pages}}">Estado</a>
+                            </th>
+                            <th class="text-center col-1 align-middl" scope="col"><a href="#">Acciones</a></th>
+                        </thead>
+                        <tbody>
+                            {% for elemento in lista %}
+                            <tr>
+                                <td scope="col" class="col-1" style="padding-left: 10px; width: 70px;"><a role="button"
+                                        href="#sectionPPP{{elemento[0]}}" data-bs-toggle="collapse"
+                                        aria-expanded="false" aria-controls="sectionPPP{{elemento[0]}}"><i
+                                            class="fa-solid fa-book-open-reader"></i></a></td>
+                                <td scope="col" class="col-1" style="width: 140px;">{{ elemento[1] }}</td>
+                                <td scope="col" class="col-7">{{ elemento[2] }}</td>
+                                <td scope="col" class="col-1">{% if elemento[7] %}Activo{% else %}No activo{% endif %}
+                                </td>
+                                <td class="col text-center align-middle">
+                                    <div class="btn-group" role="group" style="gap: 10px;height: 30px;">
+                                        {% include 'modales.html' %}
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#myModal{{elemento[0]}}"
+                                            class="btn btn-info btn-sm rounded" role="button" title="Visualizar"><i
+                                                class="bi bi-eye-fill"></i></a>
+                                        <a href="{{url_for('crear_ppp',id=elemento[0])}}" class="btn btn-primary btn-sm rounded">
+                                                                <i class="fa-solid fa-plus"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% for pp in ppp %}
+                            {% if pp[4] == elemento[0] %}
+                            <tr>
+                                <td colspan="6" class="py-0 px-0 border-0">
+                                    <div id="sectionPPP{{elemento[0]}}" class="collapse">
+                                        <table class="table table-striped mt-2" style="background-color: whitesmoke;">
+                                            <thead style="border-top: 1px solid black; border-bottom: 1px solid black;">
+                                                <th class="align-middle col-1" scope="col"><a>#</a></th>
+                                                <th class="align-middle col-3" scope="col"><a>Numero de PPP</a></th>
+                                                <th class="align-middle col-3" scope="col"><a>Fecha inicial</a></th>
+                                                <th class="align-middle col-3" scope="col"><a>Fecha final</a></th>
+                                                <th class="align-middle col-2" scope="col"><a>Horas PPP</a></th>
+                                                <th class="align-middle col-2 text-center" scope="col"><a>Acciones</a>
+                                                </th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><a href="#informe{{pp[4]}}{{pp[0]}}" data-bs-toggle="collapse"
+                                                            aria-expanded="false"
+                                                            aria-controls="informe{{pp[0]}}{{pp[1]}}"><i
+                                                                class="fa-solid fa-bars"></i></a></td>
+                                                    <td>{{pp[0]}}</td>
+                                                    <td>{{pp[1]}}</td>
+                                                    <td>{{pp[2]}}</td>
+                                                    <td>{{pp[3]}}</td>
+                                                    <td class="col text-center align-middle">
+                                                        <div class="btn-group" role="group"
+                                                            style="gap: 10px;height: 30px;">
+                                                            
+                                                            <a href="{{ url_for('editarPPP',id=pp[20]) }}"
+                                                                class="btn btn-info btn-sm rounded" role="button"
+                                                                title="Editar"><i class="bi bi-pencil-fill"></i></a>
+
+                                                            <a href="{{url_for('transaccion',id=pp[20],idE=elemento[0])}}"
+                                                                class="btn btn-success btn-sm rounded"
+                                                                role="button rounded" title="Aceptar"><i
+                                                                    class="fa-solid fa-check-double"></i></i></a>
+
+                                                            <a href="{{url_for('rechazar_ppp',id=pp[20],idE=elemento[0])}}" class="btn btn-primary btn-sm rounded"
+                                                                role="button" title="Rechazar"><i
+                                                                    class="fa-solid fa-circle-xmark"></i></a>
+                                                            <a type="button" href="#" class="btn btn-danger btn-sm rounded" data-bs-toggle="modal" data-bs-target="#modal-eliminar{{pp[20]}}" title="Eliminar">
+                                                                <i class="bi bi-trash-fill"></i></a>
+                                                                <div class="modal fade" id="modal-eliminar{{pp[20]}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                                                                aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <form action="{{url_for('eliminar_ppp',id=pp[20])}}" method="post">
+                                                                            <div class="modal-header justify-content-center">
+                                                                                <h3 class="text-center">¿Estás seguro?</h5>
+                                                                            </div>
+                                                                            <div class="modal-body fs-5">
+                                                                                Esta acción no se puede deshacer
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                                                                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Aceptar</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td colspan="6" class="px-0 py-0 border-0">
+                                    <div id="informe{{pp[4]}}{{pp[0]}}" class="collapse">
+                                        <table class="table table-striped mt-2" style="background-color: whitesmoke;">
+                                            <thead style="border-top: 1px solid black; border-bottom: 1px solid black;">
+                                                <th class="align-middle col-1" scope="col"><a>#</a></th>
+                                                <th class="align-middle col-4" scope="col"><a>Tipo de informe</a></th>
+                                                <th class="align-middle col-3" scope="col"><a>Fecha de Registro</a></th>
+                                                <th class="align-middle col-2" scope="col"><a>Estado</a></th>
+                                                <th class="align-middle text-center col-2" scope="col"><a>Acciones</a>
+                                                </th>
+                                            </thead>
+                                            <tbody>
+                                                {% for inf in tipo %}
+                                                <tr>
+                                                    <td>+</td>
+                                                    <td>{{inf[0]}}</td>
+                                                    <td>{{pp[inf[1]]}}</td>
+                                                    <td>{{pp[inf[1]+1]}}</td>
+                                                    <td class="col text-center align-middle">
+                                                        <div class="btn-group" role="group"
+                                                            style="gap: 10px;height: 30px;">
+
+                                                            <a href="{{url_for('editar',tipo=inf[0],id=pp[inf[1]+2],idE=elemento[0])}}"
+                                                                class="btn btn-info btn-sm rounded" role="button"
+                                                                title="Visualizar"><i class="bi bi-pencil-fill"></i></a>
+
+                                                            <a href="{{url_for('aceptar_informe',tipo=inf[0],id=pp[inf[1]+2])}}"
+                                                                class="btn btn-success btn-sm rounded"
+                                                                role="button rounded" title="Aceptar"><i
+                                                                    class="fa-solid fa-check-double"></i></i></a>
+                                                            <div class="modal fade"
+                                                                id="observaciones{{(inf[0]).replace(" ", "-")}}{{pp[0]}}{{pp[4]}}" tabindex="-1" role="dialog"
+                                                                aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-body">
+                                                                            <form
+                                                                                action="{{url_for('rechazar_informe',tipo=inf[0],id=pp[inf[1]+2])}}"
+                                                                                method="post">
+                                                                                <div class="row">
+                                                                                    <div>
+                                                                                        <h1 class="fs-2 py-2"
+                                                                                            style="background-color: red;color: white;">
+                                                                                            Observaciones</h1>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-12">
+                                                                                        <div class="row ms-1">
+                                                                                            Observaciones:
+                                                                                        </div>
+                                                                                        <textarea class="form-control"
+                                                                                            name="observacion" id=""
+                                                                                            style="height: 200px;"></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-secondary"
+                                                                                        data-bs-dismiss="modal">Cerrar</button>
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-primary"
+                                                                                        data-bs-dismiss="modal">Aceptar</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <a href="#" data-bs-toggle="modal"
+                                                                data-bs-target="#observaciones{{(inf[0]).replace(" ", "-")}}{{pp[0]}}{{pp[4]}}"
+                                                                class="btn btn-primary btn-sm rounded" title="Rechazar"
+                                                                role="button"><i
+                                                                    class="fa-solid fa-circle-xmark"></i></a>
+
+                                                            <a href="{{ url_for('generar_pdf_informe',tipo=inf[0], id=pp[inf[1]+2]) }}"
+                                                                class="btn btn-primary btn-sm rounded" role="button"
+                                                                title="Generar PDF">
+                                                                <i class="fa-solid fa-file-pdf"></i> Generar PDF
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <h3>No se encontraron resultados... :'(</h3>
+                    {% endif %}
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        {% for category, message in messages %}
+        Swal.fire({
+            title: 'Notificación',
+            text: "{{ message }}",
+            icon: "{{ 'success' if category == 'success' else 'error' if category == 'error' else 'info' }}",
+            confirmButtonText: 'Aceptar'
+        });
+        {% endfor %}
+    });
+</script>
+{% endif %}
+{% endwith %}
+{% endblock cuerpo2 %}

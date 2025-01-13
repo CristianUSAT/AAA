@@ -1,0 +1,2395 @@
+<!-- MODAL DE VISUALIZACION -->
+<div class="modal fade text-center" id="myModal{{elemento[0]}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red;color: white;">Datos del estudiante</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Codigo:</div>
+                            <input type="text" class="form-control" id="inputName" placeholder="{{elemento[1]}}"
+                                disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Telefono:</div>
+                            <input type="number" class="form-control" maxlength="9" id="inputName"
+                                placeholder="{{elemento[5]}}" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Apellidos y nombres:</div>
+                            <input type="text" class="form-control" id="inputName" placeholder="{{elemento[2]}}"
+                                disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Correo:</div>
+                            <input type="text" class="form-control" id="inputName" placeholder="{{elemento[6]}}"
+                                disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Escuela:</div>
+                            <input type="text" class="form-control" id="inputName" placeholder="{{elemento[10]}}"
+                                disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Contraseña:</div>
+                            <input type="text" class="form-control" id="inputName" placeholder="{{elemento[8]}}"
+                                disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">DNI:</div>
+                            <input type="text" class="form-control" id="inputName" placeholder="{{elemento[4]}}"
+                                disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estEstudiante"
+                                    name="estEstudiante" checked disabled>
+                                <label class="form-check-label" for="id_estEstudiante">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="verFacultad{{ elemento[0] }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Datos de la Facultad</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputName" placeholder="{{ elemento[1] }}"
+                                disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class="d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estFacultad"
+                                    name="estFacultad" {% if elemento[2]==1 %} checked {% endif %} disabled>
+                                <label class="form-check-label" for="id_estFacultad">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="verEscuela{{elemento[0]}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red;color: white;">Datos de la Escuela</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputName" placeholder="{{elemento[1]}}"
+                                disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estEscuela"
+                                    name="estEstudiante" checked disabled>
+                                <label class="form-check-label" for="id_estEscuela">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Facultad:</div>
+                                {% for facultad in facultades %}
+                                <input type="text" class="form-control" id="facultadInput" name="facultad" value="{{facultad[1]}}" disabled>
+                                {% endfor %}
+                        </div>
+                    </div>  
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="verlinea{{elemento[0]}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red;color: white;">Datos de línea desarrollo
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputName" value="{{elemento[1]}}" disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estlinea" name="estado"
+                                    disabled {% if elemento[2] %} checked {% endif %}>
+                                <label class="form-check-label" for="id_estlinea">Activo</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Escuela:</div>
+                            <input type="text" class="form-control mb-2" id="inputName"
+                                value="{% for escuela in escuelas %}{% if escuela[0] == elemento[3] %}{{escuela[1]}}{% endif %}{% endfor %}"
+                                disabled>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Modificar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="verplan{{elemento[0]}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red;color: white;">Datos de Plan de Estudio
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputName" value="{{elemento[1]}}" disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Creditos:</div>
+                            <input type="number" class="form-control" id="inputCre" value="{{elemento[2]}}" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estplan" name="estado"
+                                    disabled {% if elemento[3] %} checked {% endif %}>
+                                <label class="form-check-label" for="id_estplan">Activo</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Escuela:</div>
+                            <input type="text" class="form-control mb-2" id="inputName"
+                                value="{% for escuela in escuelas %}{% if escuela[0] == elemento[4] %}{{escuela[1]}}{% endif %}{% endfor %}"
+                                disabled>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL DE AGREGAR -->
+<div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('agregarEstudiante') }}" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red;color: white;">Datos del estudiante</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Codigo:</div>
+                            <input type="text" class="form-control" id="inputName" name="codigo" placeholder=""
+                                required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Telefono:</div>
+                            <input type="number" min="0" max="999999999" class="form-control" id="inputName"
+                                name="numero" placeholder="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Nombres y apellidos:</div>
+                            <input type="text" class="form-control" id="inputName" name="nombres" placeholder="">
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Correo:</div>
+                            <input type="text" class="form-control" id="inputName" name="correo" placeholder="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Escuela:</div>
+                            <select class="form-select" id="selectList" name="escuela" required>
+                                <option value="" disabled selected>----------</option>
+                                {% for escuela in escuelas %}
+                                <option value="{{escuela[0]}}">{{escuela[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Contraseña:</div>
+                            <input type="text" class="form-control" id="inputName" name="contra" placeholder="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">DNI:</div>
+                            <input type="text" class="form-control" id="inputName" name="dni" placeholder="">
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estEstudiante" name="estado"
+                                    checked>
+                                <label class="form-check-label" for="id_estEstudiante">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modificarE{{elemento[0]}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{url_for('editar_estudiante')}}" method="post">
+                <input type="text" name="idEstudiante" value="{{elemento[0]}}" hidden>
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red;color: white;">Datos del estudiante</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Codigo:</div>
+                            <input type="text" value="{{elemento[1]}}" class="form-control" id="inputName" name="codigo" placeholder=""
+                                required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Telefono:</div>
+                            <input type="number" value="{{elemento[5]}}" min="0" max="999999999" class="form-control" id="inputName"
+                                name="numero" placeholder="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Nombres y apellidos:</div>
+                            <input type="text" value="{{elemento[2]}}" class="form-control" id="inputName" name="nombres" required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Correo:</div>
+                            <input type="text" value="{{elemento[6]}}" class="form-control" id="inputName" name="correo" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Escuela:</div>
+                            <select class="form-select" id="selectList" name="escuela" required>
+                                <option value="" disabled selected>----------</option>
+                                {% for escuela in escuelas %}
+                                <option value="{{escuela[0]}}" {% if elemento[3]==escuela[0] %} selected {% endif %}>{{escuela[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Contraseña:</div>
+                            <input type="text" value="{{elemento[8]}}" class="form-control" id="inputName" name="contra" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">DNI:</div>
+                            <input type="number" value="{{elemento[4]}}" class="form-control" id="inputName" name="dni" placeholder="">
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estEstudiante" name="estado"
+                                    {% if elemento[7] %} checked {% endif %}>
+                                <label class="form-check-label" for="id_estEstudiante">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="agregarFacultad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('agregarFacultad') }}" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red;color: white;">Datos de la facultad</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputName" name="nombre" placeholder="">
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class="d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estFacultad" name="estado"
+                                    value="1" checked>
+                                <label class="form-check-label" for="id_estFacultad">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="agregarEscuela" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('agregarEscuela') }}" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red;color: white;">Datos de la escuela</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputName" name="nombre" placeholder="">
+                        </div>
+
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estFacultad" name="estado"
+                                    checked>
+                                <label class="form-check-label" for="id_estFacultad">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Facultad:</div>
+                            <select class="form-select" id="selectList" name="facultad" required>
+                                <option value="" disabled selected>----------</option>
+                                {% for facultad in facultades %}
+                                {% if facultad[2] == 1 %}
+                                <option value="{{facultad[0]}}">{{facultad[1]}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="agregarLinea" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('agregarLinea') }}" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div style="display: flex; justify-content: center; align-items: center; height: 50px; background-color: red;">
+                            <h1 class="fs-2 py-2" style="color: white;">Datos de línea desarrollo</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputName" name="nombre" placeholder="nombre">
+                        </div>
+
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estlinea" name="estado"
+                                    checked onclick="return false;">
+                                <label class="form-check-label" for="id_estlinea">Activo</label>
+                                <input type="hidden" name="estado" value="on">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Escuela:</div>
+                            <select class="form-select" id="selectList" name="escuela" required>
+                                {% for escuela in escuelas %}
+                                {% if escuela[2] == 1 %}
+                                <option value="{{escuela[0]}}">{{escuela[1]}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="agregarPlan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('agregarPlan') }}" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red;color: white;">Datos de Plan de Estudio
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputName" name="nombre" placeholder="nombre">
+                        </div>
+
+                        <div class="col-6">
+                            <div class="row ms-1">Creditos:</div>
+                            <input type="number" class="form-control" id="inputCre" name="creditos" placeholder="00">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estplan" name="estado"
+                                    checked onclick="return false;">
+                                <label class="form-check-label" for="id_estplan">Activo</label>
+                                <input type="hidden" name="estado" value="on">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Escuela:</div>
+                            <select class="form-select" id="selectList" name="escuela" required>
+                                {% for escuela in escuelas %}
+                                <option value="{{escuela[0]}}">{{escuela[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal Dar de Baja-->
+<div class="modal fade" id="modal-eliminar{{elemento[0]}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{url_for('eliminarEstudiante',id=elemento[0])}}" method="post">
+                <div class="modal-header justify-content-center">
+                    <h3 class="text-center">¿Estás seguro?</h5>
+                </div>
+                <div class="modal-body fs-5">
+                    Esta acción no se puede deshacer
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal eliminar escuela-->
+<div class="modal fade" id="modal-eliminar-escuela{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{url_for('eliminarEscuela',id=elemento[0])}}" method="post">
+                <div class="modal-header justify-content-center">
+                    <h3 class="text-center">¿Estás seguro?</h5>
+                </div>
+                <div class="modal-body fs-5">
+                    Esta acción no se puede deshacer
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal eliminar facultad-->
+<div class="modal fade" id="modal-eliminar-facultad{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{url_for('eliminarFacultad',id=elemento[0])}}" method="post">
+                <div class="modal-header justify-content-center">
+                    <h3 class="text-center">¿Estás seguro?</h5>
+                </div>
+                <div class="modal-body fs-5">
+                    Esta acción no se puede deshacer
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal eliminar plan-->
+<div class="modal fade" id="modal-eliminar-plan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{url_for('eliminarPlan',id=elemento[0])}}" method="post">
+                <div class="modal-header justify-content-center">
+                    <h3 class="text-center">¿Estás seguro?</h5>
+                </div>
+                <div class="modal-body fs-5">
+                    Esta acción no se puede deshacer
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal eliminar linea-->
+<div class="modal fade" id="modal-eliminar-linea" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{url_for('eliminarLinea',id=elemento[0])}}" method="post">
+                <div class="modal-header justify-content-center">
+                    <h3 class="text-center">¿Estás seguro?</h5>
+                </div>
+                <div class="modal-body fs-5">
+                    Esta acción no se puede deshacer
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modales para modificar-->
+<div class="modal fade" id="modal-modificar-linea{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('modificarLinea') }}" method="post">
+                <!-- Se podría enviar el ID de la línea en un campo oculto -->
+                <input type="hidden" name="id_linea" id="id_linea">
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Modificar Línea de
+                                Desarrollo</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-0 d-none">
+                            <div class="row ms-1"></div>
+                            <input type="hidden" name="id" value="{{elemento[0]}}">
+                            <input type="text" class="form-control" value="{{elemento[0]}}" disabled>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputNameEdit" name="nombre"
+                                value="{{elemento[1]}}">
+                        </div>
+
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estlinea" name="estado"
+                                    checked onclick="return false;" {% if elemento[2] %} checked {% endif %}>
+                                <label class="form-check-label" for="id_estlinea">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Escuela:</div>
+                            <select class="form-select" id="selectList" name="escuela" required>
+                                {% for escuelas in escuelas %}
+                                {% if escuelas[2] == 1 %}
+                                <option value="{{escuelas[0]}}" {% if escuelas[0]==elemento[3] %} selected {% endif %}>
+                                    {{escuelas[1]}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-modificar-plan{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('modificarPlan') }}" method="post">
+                <!-- Se podría enviar el ID de la línea en un campo oculto -->
+                <input type="hidden" name="id_plan" id="id_plan">
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Modificar plan de estudio
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-0 d-none">
+                            <div class="row ms-1"></div>
+                            <input type="hidden" name="id" value="{{elemento[0]}}">
+                            <input type="text" class="form-control" value="{{elemento[0]}}" disabled>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputNameEdit" name="nombre"
+                                value="{{elemento[1]}}">
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Creditos:</div>
+                            <input type="number" class="form-control" id="inputcre" value="{{elemento[2]}}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estlinea" name="estado"
+                                    checked onclick="return false;" {% if elemento[3] %} checked {% endif %}>
+                                <label class="form-check-label" for="id_estlinea">Activo</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Escuela:</div>
+                            <select class="form-select" id="selectList" name="escuela" required>
+                                {% for escuelas in escuelas %}
+                                <option value="{{escuelas[0]}}" {% if escuelas[0]==elemento[4] %} selected {% endif %}>
+                                    {{escuelas[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-modificar-linea{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('modificarLinea') }}" method="post">
+                <!-- Se podría enviar el ID de la línea en un campo oculto -->
+                <input type="hidden" name="id_linea" id="id_linea">
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Modificar Línea de
+                                Desarrollo</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-0 d-none">
+                            <div class="row ms-1"></div>
+                            <input type="hidden" name="id" value="{{elemento[0]}}">
+                            <input type="text" class="form-control" value="{{elemento[0]}}" disabled>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputNameEdit" name="nombre"
+                                value="{{elemento[1]}}">
+                        </div>
+
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estlinea" name="estado"
+                                    checked onclick="return false;" {% if elemento[2] %} checked {% endif %}>
+                                <label class="form-check-label" for="id_estlinea">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Escuela:</div>
+                            <select class="form-select" id="selectList" name="escuela" required>
+                                {% for escuelas in escuelas %}
+                                <option value="{{escuelas[0]}}" {% if escuelas[0]==elemento[3] %} selected {% endif %}>
+                                    {{escuelas[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modificar Facultad -->
+<div class="modal fade" id="modal-modificar-facultad{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('modificarFacultad') }}" method="post">
+
+                <input type="hidden" name="id_Facultad" id="id_Facultad">
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Modificar facultad</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-0 d-none">
+                            <div class="row ms-1"></div>
+                            <input type="hidden" name="id" value="{{elemento[0]}}">
+                            <input type="text" class="form-control" value="{{elemento[0]}}" disabled>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="nomFacultad" name="nomFacultad"
+                                value="{{elemento[1]}}">
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class="d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estFacultad" name="estado" value="1" {% if elemento[2] == 1 %} checked {% endif %}>
+                                <label class="form-check-label" for="id_estFacultad">Activo</label>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modificar Escuela -->
+<div class="modal fade" id="modal-modificar-escuela{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('modificarEscuela') }}" method="post">
+
+                <input type="hidden" name="id_Escuela" id="id_Escuela">
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Modificar escuela</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-0 d-none">
+                            <div class="row ms-1"></div>
+                            <input type="hidden" name="id" value="{{elemento[0]}}">
+                            <input type="text" class="form-control" value="{{elemento[0]}}" disabled>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="nomEscuela" name="nomEscuela"
+                                value="{{elemento[1]}}">
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class="d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="id_estEscuela" name="estado"
+                                    value="1" checked>
+                                <label class="form-check-label" for="id_estFacultad">Activo</label>
+                            </div>
+                        </div>                       
+                    </div>
+                    
+                    
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Facultad:</div>
+                            <select class="form-select" id="selectList" name="facultad" required>
+                                {% for facultad in facultades %}
+                                {% if facultad[2] == 1 %}
+                                <option value="{{facultad[0]}}">{{elemento[4]}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE VISUALIZACION DE EMPRESA -->
+<div class="modal fade text-center" id="modal-verEmpresa{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="modal-verEmpresaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Datos de la empresa</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Razón Social:</div>
+                            <input type="text" class="form-control" id="inputRazonSocial"
+                                placeholder="{{ elemento[1] }}" disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Giro:</div>
+                            <input type="text" class="form-control" id="inputGiro" placeholder="{{ elemento[3] }}"
+                                disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Dirección:</div>
+                            <input type="text" class="form-control" id="inputDireccion" placeholder="{{ elemento[2] }}"
+                                disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Representante Legal:</div>
+                            <input type="text" class="form-control" id="inputRepresentante"
+                                placeholder="{{ elemento[4] }}" disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Cantidad de Trabajadores:</div>
+                            <input type="number" class="form-control" id="inputCantidadTrabajadores"
+                                placeholder="{{ elemento[5] }}" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Visión:</div>
+                            <textarea class="form-control" id="inputVision" disabled>{{ elemento[6] }}</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Misión:</div>
+                            <textarea class="form-control" id="inputMision" disabled>{{ elemento[7] }}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Organigrama -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Organigrama:</div>
+                            {% if elemento[8] %}
+                                <button type="button" class="btn btn-info" data-bs-toggle="modal" 
+                                        data-bs-target="#modal-organigrama{{elemento[0]}}">Ver Organigrama</button>
+                            {% else %}
+                                <p>No hay organigrama disponible.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para mostrar el organigrama -->
+<div class="modal fade" id="modal-organigrama{{elemento[0]}}" tabindex="-1" aria-labelledby="modalOrganigramaLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalOrganigramaLabel">Organigrama de la empresa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                {% if elemento[8] %}
+                    <img src="{{ url_for('static', filename='media/uploads/' + elemento[8]) }}" 
+                         alt="Organigrama de la empresa" class="img-fluid">
+                {% else %}
+                    <p>No hay imagen de organigrama disponible.</p>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- MODAL DE AGREGAR EMPRESA -->
+<div class="modal fade text-center" id="modal-agregarEmpresa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('agregarEmpresa') }}" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Datos de la empresa</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Razón Social:</div>
+                            <input type="text" class="form-control" id="inputRazonSocial" name="razSocEmpresa"
+                                placeholder="" required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Dirección:</div>
+                            <input type="text" class="form-control" id="inputDireccion" name="dirEmpresa" placeholder=""
+                                required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Giro:</div>
+                            <input type="text" class="form-control" id="inputGiro" name="girEmpresa" placeholder=""
+                                required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Representante Legal:</div>
+                            <input type="text" class="form-control" id="inputRepresentante" name="repreEmpresa"
+                                placeholder="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Cantidad de Trabajadores:</div>
+                            <input type="number" class="form-control" id="inputCantidadTrabajadores"
+                                name="canTraEmpresa" placeholder="" min="1">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Visión:</div>
+                            <textarea class="form-control" id="inputVision" name="visEmpresa" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Misión:</div>
+                            <textarea class="form-control" id="inputMision" name="misEmpresa" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Información Fiscal:</div>
+                            <textarea class="form-control" id="inputInfoFiscal" name="infFisEmpresa"
+                                placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Información Técnica:</div>
+                            <textarea class="form-control" id="inputInfoTecnica" name="infTecEmpresa"
+                                placeholder=""></textarea>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Organigrama:</div>
+                            <input type="file" class="form-control-file" id="orgEmpresa" name="orgEmpresa" accept="image/*">
+                            <label>*Solo acepta en formato .png y .jpg</label>
+                            
+                            <!-- <textarea class="form-control" id="inputOrganizacion" name="orgEmpresa"
+                                placeholder=""></textarea> -->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL DE MODIFICAR EMPRESA -->
+<div class="modal fade text-center" id="moda-modificarEmpresa{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('modificarEmpresa') }}" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Modificar empresa</h1>
+                        </div>
+                    </div>
+                    <input type="hidden" name="id" value="{{elemento[0]}}">
+                    
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Razón Social:</div>
+                            <input type="text" class="form-control" name="razSocEmpresa" value="{{elemento[1]}}" required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Dirección:</div>
+                            <input type="text" class="form-control" name="dirEmpresa" value="{{elemento[2]}}" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Giro:</div>
+                            <input type="text" class="form-control" name="girEmpresa" value="{{elemento[3]}}" required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Representante Legal:</div>
+                            <input type="text" class="form-control" name="repreEmpresa" value="{{elemento[4]}}" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Cantidad de Trabajadores:</div>
+                            <input type="number" class="form-control" name="canTraEmpresa" value="{{elemento[5]}}"
+                                min="1">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Visión:</div>
+                            <textarea class="form-control" name="visEmpresa">{{elemento[6]}}</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Misión:</div>
+                            <textarea class="form-control" name="misEmpresa">{{elemento[7]}}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Organigrama -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Organigrama Actual:</div>
+                            {% if elemento[8] %}
+                                <img src="{{ url_for('static', filename='media/uploads/' + elemento[8]) }}" 
+                                     alt="Organigrama Actual" class="img-fluid mb-2" style="max-width: 100%;">
+                            {% else %}
+                                <p>No hay imagen de organigrama disponible.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Nuevo Organigrama (opcional):</div>
+                            <input type="file" class="form-control-file" name="orgEmpresa" accept="image/*">
+                            <label>*Solo acepta en formato .png y .jpg</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Modificar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL DE ELIMINAR EMPRESA -->
+<div class="modal fade text-center" id="moda-eliminarRelEmpresa{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{ url_for('eliminarRelEmpresa', id=elemento[0]) }}" method="post">
+                <div class="modal-header justify-content-center">
+                    <h3 class="text-center">¿Estás seguro?</h3>
+                </div>
+                <div class="modal-body fs-5">
+                    <p>¿Estás seguro de que deseas eliminar la empresa <strong>{{elemento[1]}}</strong>? Esta acción no
+                        se puede deshacer.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% if '/listaResponsables' in request.path %}
+<!-- Modal para listar los responsables agrupados por empresa -->
+<div class="modal fade text-center" id="modal-listarResponsables" tabindex="-1" role="dialog" aria-labelledby="modal-listarResponsablesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form method="POST">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: #ff0000; color: white;">Seleccionar Responsable</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Responsable</th>
+                                        <th>Cargo</th>
+                                        <th>Teléfono</th>
+                                        <th>Correo</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for empresa, responsables in responsables.items() %}
+                                        <tr>
+                                            <td colspan="6" class="bg-secondary text-white text-center">{{ empresa }}</td>
+                                        </tr>
+                                        {% for responsable in responsables %}
+                                            <tr>
+                                                <td>{{ responsable[0] }}</td> <!-- ID del responsable -->
+                                                <td>{{ responsable[1] }}</td> <!-- Nombre del responsable -->
+                                                <td>{{ responsable[2] }}</td> <!-- Cargo -->
+                                                <td>{{ responsable[3] }}</td> <!-- Teléfono -->
+                                                <td>{{ responsable[4] }}</td> <!-- Correo -->
+                                                <td>
+                                                    <button type="submit" name="responsable_id" value="{{ responsable[0] }}" class="btn btn-success btn-sm">Asociar</button>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+<!-- MODAL DE AGREGAR EMPRESA DOCENTE/ADMIN -->
+<div class="modal fade text-center" id="modal-agregarEmpresaDoc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('agregarEmpresaDoc') }}" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Datos de la Empresa</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Razón Social:</div>
+                            <input type="text" class="form-control" id="inputRazonSocial" name="razSocEmpresa"
+                                placeholder="" required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Dirección:</div>
+                            <input type="text" class="form-control" id="inputDireccion" name="dirEmpresa" placeholder=""
+                                required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Giro:</div>
+                            <input type="text" class="form-control" id="inputGiro" name="girEmpresa" placeholder=""
+                                required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Representante Legal:</div>
+                            <input type="text" class="form-control" id="inputRepresentante" name="repreEmpresa"
+                                placeholder="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Cantidad de Trabajadores:</div>
+                            <input type="number" class="form-control" id="inputCantidadTrabajadores"
+                                name="canTraEmpresa" placeholder="" min="1">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Visión:</div>
+                            <textarea class="form-control" id="inputVision" name="visEmpresa" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Misión:</div>
+                            <textarea class="form-control" id="inputMision" name="misEmpresa" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Información Fiscal:</div>
+                            <textarea class="form-control" id="inputInfoFiscal" name="infFisEmpresa"
+                                placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Información Técnica:</div>
+                            <textarea class="form-control" id="inputInfoTecnica" name="infTecEmpresa"
+                                placeholder=""></textarea>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Organigrama:</div>
+                            <input type="file" class="form-control-file" id="orgEmpresa" name="orgEmpresa" accept="image/*">
+                            <label>*Solo acepta en formato .png y .jpg</label>
+                            
+                            <!-- <textarea class="form-control" id="inputOrganizacion" name="orgEmpresa"
+                                placeholder=""></textarea> -->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE ELIMINAR EMPRESA DOCENTE/ADMIN -->
+<div class="modal fade text-center" id="moda-eliminarEmpresa{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{ url_for('eliminarEmpresa', id=elemento[0]) }}" method="post">
+                <div class="modal-header justify-content-center">
+                    <h3 class="text-center">¿Estás seguro?</h3>
+                </div>
+                <div class="modal-body fs-5">
+                    <p>¿Estás seguro de que deseas eliminar la empresa <strong>{{elemento[1]}}</strong>? Esta acción no
+                        se puede deshacer.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- RESPONSABLE -->
+
+<!-- MODAL DE VISUALIZACION DE RESPONSABLE -->
+<div class="modal fade text-center" id="modal-verResponsable{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="modal-verResponsableLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Datos del Responsable
+                            </h1>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Empresa:</div>
+                            <input type="text" class="form-control" id="inputCodEmpResponsable"
+                                placeholder="{{ elemento[7] }}" disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputApeNomResponsable"
+                                placeholder="{{ elemento[2] }}" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Cargo:</div>
+                            <input type="text" class="form-control" id="inputCarResponsable"
+                                placeholder="{{ elemento[3] }}" disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Teléfono:</div>
+                            <input type="text" class="form-control" id="inputTelResponsable"
+                                placeholder="{{ elemento[4] }}" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Correo:</div>
+                            <input type="text" class="form-control" id="inputCorResponsable"
+                                placeholder="{{ elemento[5] }}" disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Horario:</div>
+                            <input type="text" class="form-control" id="inputHorResponsable"
+                                placeholder="{{ elemento[6] }}" disabled>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE AGREGAR RESPONSABLE -->
+<div class="modal fade text-center" id="modal-agregarResponsable" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('agregarResponsable') }}" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Datos del responsable
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Nombre de empresa:</div>
+                            <select class="form-select" id="selectEmpresa" name="codEmpResponsable" required>
+                                <option value="" disabled selected>Seleccione una empresa...</option>
+                                {% for empresa in empresas %}
+                                <option value="{{empresa[0]}}">{{empresa[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputApeNomResponsable" name="apeNomResponsable"
+                                placeholder="" required maxlength="150">
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Cargo:</div>
+                            <input type="text" class="form-control" id="inputCarResponsable" name="carResponsable"
+                                placeholder="" required maxlength="150">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Teléfono:</div>
+                            <input type="tel" class="form-control" id="inputTelResponsable" name="telResponsable"
+                                placeholder="" pattern="\d{9}" maxlength="9"
+                                title="El teléfono debe tener 9 dígitos y solo números"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Correo:</div>
+                            <input type="email" class="form-control" id="inputCorResponsable" name="corResponsable"
+                                placeholder="" maxlength="150">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Horario:</div>
+                            <input type="text" class="form-control" id="inputHorResponsable" name="horResponsable"
+                                placeholder="" maxlength="150">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE AGREGAR RESPONSABLE - DOCENTE/ADMIN -->
+<div class="modal fade text-center" id="modal-agregarResponsableDoc" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('agregarResponsableDoc') }}" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Datos del responsable
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Nombre de empresa:</div>
+                            <select class="form-select" id="selectEmpresa" name="codEmpResponsable" required>
+                                <option value="" disabled selected>Seleccione una empresa...</option>
+                                {% for empresa in empresas %}
+                                <option value="{{empresa[0]}}">{{empresa[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" id="inputApeNomResponsable" name="apeNomResponsable"
+                                placeholder="" required maxlength="150">
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Cargo:</div>
+                            <input type="text" class="form-control" id="inputCarResponsable" name="carResponsable"
+                                placeholder="" required maxlength="150">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Teléfono:</div>
+                            <input type="tel" class="form-control" id="inputTelResponsable" name="telResponsable"
+                                placeholder="" pattern="\d{9}" maxlength="9"
+                                title="El teléfono debe tener 9 dígitos y solo números"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Correo:</div>
+                            <input type="email" class="form-control" id="inputCorResponsable" name="corResponsable"
+                                placeholder="" maxlength="150">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Horario:</div>
+                            <input type="text" class="form-control" id="inputHorResponsable" name="horResponsable"
+                                placeholder="" maxlength="150">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL DE MODIFICAR RESPONSABLE -->
+<div class="modal fade" id="modal-modificarResponsable{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <form action="{{ url_for('modificarResponsable') }}" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Modificar responsable
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="hidden" name="id" value="{{elemento[0]}}">
+                        <!-- <div class="col-6">
+                            <div class="row ms-1">ID del Responsable:</div>
+                            <input type="hidden" name="id" value="{{elemento[0]}}">
+                            <input type="text" class="form-control" value="{{elemento[0]}}" disabled>
+                        </div> -->
+                        <div class="col-12">
+                            <div class="row ms-1">Nombre de empresa:</div>
+                            <select class="form-select" name="codEmpResponsable" required>
+                                {% for empresa in empresas %}
+                                <option value="{{empresa[0]}}" {% if empresa[0]==elemento[1] %} selected {% endif %}>
+                                    {{empresa[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Nombre:</div>
+                            <input type="text" class="form-control" name="apeNomResponsable" value="{{elemento[2]}}"
+                                required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Cargo:</div>
+                            <input type="text" class="form-control" name="carResponsable" value="{{elemento[3]}}"
+                                required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Teléfono:</div>
+                            <input type="text" class="form-control" name="telResponsable" value="{{elemento[4]}}"
+                            pattern="\d{9}" maxlength="9"
+                            title="El teléfono debe tener 9 dígitos y solo números"
+                            onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Correo:</div>
+                            <input type="email" class="form-control" name="corResponsable" value="{{elemento[5]}}"
+                                >
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Horario:</div>
+                            <input type="text" class="form-control" name="horResponsable" value="{{elemento[6]}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Modificar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL DE ELIMINAR RESPONSABLE -->
+<div class="modal fade" id="modal-eliminarRelResponsable{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{ url_for('eliminarRelResponsable', id=elemento[0]) }}" method="post">
+                <div class="modal-header justify-content-center">
+                    <h3 class="text-center">¿Estás seguro?</h3>
+                </div>
+                <div class="modal-body fs-5">
+                    <p>¿Estás seguro de que deseas eliminar al responsable <strong>{{elemento[2]}}</strong>? Esta acción
+                        no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- RESPONSABLE - DOCENTE / ADMIN-->
+
+<!-- MODAL DE ELIMINAR RESPONSABLE DOCENTE / ADMIN-->
+<div class="modal fade" id="modal-eliminarResponsable{{elemento[0]}}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{ url_for('eliminarResponsable', id=elemento[0]) }}" method="post">
+                <div class="modal-header justify-content-center">
+                    <h3 class="text-center">¿Estás seguro?</h3>
+                </div>
+                <div class="modal-body fs-5">
+                    <p>¿Estás seguro de que deseas eliminar al responsable <strong>{{elemento[2]}}</strong>? Esta acción
+                        no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!----------------------------------->
+
+<!-- Modal de visualización de horarios -->
+<div class="modal fade" id="modal-visualizar-horario" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document"> <!-- Cambiado a modal-xl para mayor tamaño -->
+        <div class="modal-content">
+            <div class="modal-body">
+                <h5 class="modal-title text-center mb-4">Horario de la PPP del Estudiante</h5>
+                <div class="table-responsive">
+                    <table id="modalHorarioTable" class="table table-bordered text-center horario-table">
+                        <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>Lunes</th>
+                                <th>Martes</th>
+                                <th>Miércoles</th>
+                                <th>Jueves</th>
+                                <th>Viernes</th>
+                                <th>Sábado</th>
+                                <th>Domingo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for hour in range(7, 22) %}
+                            <tr>
+                                <td class="hora-columna">
+                                    {% if hour < 10 %} 0{{ hour }}:00 - {{ hour + 1 }}:00 {% else %} {{ hour }}:00 - {{ hour + 1 }}:00 {% endif %}
+                                </td>
+                                {% for day in range(1, 8) %}
+                                <td class="modal-horario-celda" data-hour="{{ hour }}" data-day="{{ day }}"></td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- DOCENTE -->
+
+<!-- MODAL DE VISUALIZACION DE DOCENTE -->
+<div class="modal fade text-center" id="modal-verDocente{{elemento[0]}}" tabindex="-1" role="dialog" aria-labelledby="modal-verDocenteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Datos del docente</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Apellidos y nombres:</div>
+                            <input type="text" class="form-control" id="inputNombreCompleto" placeholder="{{ elemento[1] }}" disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">DNI:</div>
+                            <input type="text" class="form-control" id="inputDNI" placeholder="{{ elemento[2] }}" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Correo:</div>
+                            <input type="email" class="form-control" id="inputCorreo" placeholder="{{ elemento[3] }}" disabled>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Contraseña:</div>
+                            <input type="text" class="form-control" id="inputcontrasena" placeholder="{{ elemento[6] }}" disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class="d-flex align-items-center justify-content-start mt-1">
+                                <input type="checkbox" class="form-check-input me-1" id="estDocente"
+                                    name="estDocente" {% if elemento[4]==1 %} checked {% endif %} disabled>
+                                <label class="form-check-label" for="estDocente">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL DE AGREGAR DOCENTE -->
+<div class="modal fade text-center" id="modal-agregarDocente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form action="{{ url_for('agregarDocente') }}" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Datos del docente</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Apellidos y nombres:</div>
+                            <input type="text" class="form-control" id="apeNomDocente" name="apeNomDocente" placeholder="" required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">DNI:</div>
+                            <input type="text" class="form-control" name="dniDocente" pattern="\d{8}" maxlength="8" 
+                                   required title="El DNI debe ser un número de 8 dígitos" 
+                                   inputmode="numeric" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 8);">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Correo:</div>
+                            <input type="email" class="form-control" id="corDocente" name="corDocente" placeholder="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        
+                        <div class="col-6">
+                            <div class="row ms-1">Contraseña:</div>
+                            <input type="text" class="form-control" id="passDocente" name="passDocente" placeholder="" required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class="d-flex align-items-center justify-content-start mt-1">
+                                <input type="checkbox" class="form-check-input me-1" id="estDocente"
+                                    name="estDocente" value="1" checked>
+                                <label class="form-check-label" for="estDocente">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- MODAL DE MODIFICAR DOCENTE -->
+<div class="modal fade text-center" id="modal-modificarDocente{{elemento[0]}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form action="{{ url_for('modificarDocente') }}" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red; color: white;">Modificar docente</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="hidden" name="id" value="{{elemento[0]}}">
+                            <div class="row ms-1">Apellidos y nombres:</div>
+                            <input type="text" class="form-control" name="apeNomDocente" value="{{elemento[1]}}" required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">DNI:</div>
+                            <input type="text" class="form-control" name="dniDocente" value="{{elemento[2]}}" pattern="\d{8}" maxlength="8" 
+                                   required title="El DNI debe ser un número de 8 dígitos" 
+                                   inputmode="numeric" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 8);">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row ms-1">Correo:</div>
+                            <input type="email" class="form-control" name="corDocente" value="{{elemento[3]}}" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Contraseña:</div>
+                            <input type="text" class="form-control" name="passDocente" value="{{elemento[6]}}" required>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class="d-flex align-items-center justify-content-start mt-1">
+                                <input type="checkbox" class="form-check-input me-1" id="estDocente" name="estado" value="1" {% if elemento[4] == 1 %} checked {% endif %}>
+                                <label class="form-check-label" for="estDocente">Activo</label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Modificar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- MODAL DE ELIMINAR DOCENTE -->
+<div class="modal fade text-center" id="modal-eliminarDocente{{elemento[0]}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{ url_for('eliminarDocente', id=elemento[0]) }}" method="post">
+                <div class="modal-header justify-content-center">
+                    <h3 class="text-center">¿Estás seguro?</h3>
+                </div>
+                <div class="modal-body fs-5">
+                    <p>¿Estás seguro de que deseas eliminar al docente <strong>{{elemento[1]}}</strong>? Esta acción no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODALES DE SEMESTRE -->
+
+<div class="modal fade" id="modal-agregarSemestre" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form action="{{url_for('agregar_semestre')}}" method="post">
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red;color: white;">Datos del semestre</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Codigo:</div>
+                            <input type="text" class="form-control" name="codigoSemestre"
+                                >
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Fecha de inicio:</div>
+                            <input type="date" class="form-control" maxlength="9" name="fechaI"
+                                value="" >
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="row ms-1">Fecha de fin:</div>
+                            <input type="date" class="form-control" name="fechaF" 
+                                >
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1"
+                                    name="estadoSemestre">
+                                <label class="form-check-label" for="estadoSemestre">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" >Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="visualizarSemestre{{elemento[0]}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red;color: white;">Datos del semestre</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Codigo:</div>
+                            <input type="text" class="form-control" id="inputName" placeholder="{{elemento[1]}}"
+                                disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Fecha de inicio:</div>
+                            <input type="date" class="form-control" maxlength="9" id="inputName"
+                                value="{{elemento[2]}}" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Fecha de fin:</div>
+                            <input type="date" class="form-control" id="inputName" value="{{elemento[3]}}"
+                                disabled>
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="estadoSemestre"
+                                    name="estadoSemestre" {% if elemento[4] %} checked {% endif %} disabled>
+                                <label class="form-check-label" for="estadoSemestre">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modificarSemestre{{elemento[0]}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form action="{{url_for('editar_semestre')}}" method="post">
+                    <input type="text" name="idSemestre" value="{{elemento[0]}}" hidden>
+                    <div class="row">
+                        <div>
+                            <h1 class="fs-2 py-2" style="background-color: red;color: white;">Datos del semestre</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row ms-1">Codigo:</div>
+                            <input type="text" name="codigoSemestre" class="form-control" id="inputName" value="{{elemento[1]}}"
+                            >
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Fecha de inicio:</div>
+                            <input type="date" name="fechaI" class="form-control" maxlength="9" id="inputName"
+                                value="{{elemento[2]}}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="row ms-1">Fecha de fin:</div>
+                            <input type="date" name="fechaF" class="form-control" id="inputName" value="{{elemento[3]}}"
+                            >
+                        </div>
+                        <div class="col-6">
+                            <div class="row ms-1">Estado:</div>
+                            <div class=" d-flex align-items-center justify-content-start">
+                                <input type="checkbox" class="form-check-input me-1" id="estadoSemestre"
+                                    name="estadoSemestre" {% if elemento[4] %} checked {% endif %}>
+                                <label class="form-check-label" for="estadoSemestre">Activo</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{% if '/relacionEmpresaResponsable' in request.path %}
+<!-- Modal para Relacionar Empresas -->
+<div class="modal fade" id="modalRelacionesEmpresa{{elemento[0]}}" tabindex="-1" aria-labelledby="modalRelacionesEmpresa{{elemento[0]}}Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Empresas Relacionadas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5>Empresas relacionadas</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Razón Social</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for empresa in empresas_relacionadas %}
+                        <tr>
+                            <td>{{ empresa[1] }}</td>
+                            <td>
+                                <form action="{{ url_for('desasociar_empresa', estudiante_id=estudiante_id, empresa_id=empresa[0]) }}" method="POST">
+                                    <button type="submit" class="btn btn-danger">Desasociar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            
+                <h5>Empresas no relacionadas</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Razón Social</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for empresa in empresas_no_relacionadas %}
+                        <tr>
+                            <td>{{ empresa[1] }}</td>
+                            <td>
+                                <form action="{{ url_for('asociar_empresa', estudiante_id=estudiante_id, empresa_id=empresa[0]) }}" method="POST">
+                                    <button type="submit" class="btn btn-primary">Asociar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>            
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Relacionar Responsables -->
+<div class="modal fade" id="modalRelacionesResponsable{{elemento[0]}}" tabindex="-1" aria-labelledby="modalRelacionesResponsable{{elemento[0]}}Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Responsables Relacionados</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5>Responsables relacionados</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Responsable</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for responsable in responsables_relacionados %}
+                        <tr>
+                            <td>{{ responsable[1] }}</td>
+                            <td>
+                                <form action="{{ url_for('desasociar_responsable', estudiante_id=estudiante_id, responsable_id=responsable[0]) }}" method="POST">
+                                    <button type="submit" class="btn btn-danger">Desasociar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            
+                <h5>Responsables no relacionados</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Responsable</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for responsable in responsables_no_relacionados %}
+                        <tr>
+                            <td>{{ responsable[1] }}</td>
+                            <td>
+                                <form action="{{ url_for('asociar_responsable', estudiante_id=estudiante_id, responsable_id=responsable[0]) }}" method="POST">
+                                    <button type="submit" class="btn btn-primary">Asociar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+</div>
+  
+  
+{% endif %}
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const horarioModal = document.getElementById('modal-visualizar-horario');
+        horarioModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const estudianteId = button.getAttribute('data-estudiante-id');
+
+            fetch(`/obtener_horario/${estudianteId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Añade este console.log para ver el JSON recibido del backend
+                    console.log("Horarios recibidos en el frontend:", data);
+
+                    if (data.horarios) {
+                        pintarHorarioEnModal(data.horarios);
+                    } else {
+                        console.error(data.error || "Error loading schedule");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error en el fetch de horario:", error);
+                });
+
+        });
+
+        function pintarHorarioEnModal(horarios) {
+            document.querySelectorAll(".modal-horario-celda").forEach((celda) => {
+                celda.classList.remove("celda-seleccionada");
+                if (celda.querySelector(".hora-texto")) {
+                    celda.querySelector(".hora-texto").remove();
+                }
+
+                const dia = celda.getAttribute("data-day");
+                const hora = celda.getAttribute("data-hour");
+
+                const diaMapping = {
+                    1: 'Lunes',
+                    2: 'Martes',
+                    3: 'Miércoles',
+                    4: 'Jueves',
+                    5: 'Viernes',
+                    6: 'Sábado',
+                    7: 'Domingo'
+                };
+
+                const diaSeleccionado = diaMapping[dia];
+
+                const horarioExiste = horarios.some((horario) => horario[0] === diaSeleccionado && horario[1] == hora);
+                if (horarioExiste) {
+                    celda.classList.add("celda-seleccionada");
+
+                    const horaTexto = document.createElement("span");
+                    horaTexto.classList.add("hora-texto");
+                    horaTexto.textContent = `${hora}:00 - ${parseInt(hora) + 1}:00`;
+                    celda.appendChild(horaTexto);
+                }
+            });
+        }
+    });
+
+
+</script>
+
+<style>
+
+
+
+    .modal-horario-celda.celda-seleccionada .hora-texto {
+        display: block;
+    }
+    .modal-xl {
+        max-width: 80%;
+        max-height: 90%;
+    }
+
+    .modal-horario-celda {
+        position: relative;
+        cursor: pointer;
+        padding: 0;
+        border-radius: 5px;
+        background-color: #f1f3f5;
+        transition: background-color 0.3s ease;
+    }
+
+    .modal-horario-celda {
+        background-color: #f1f3f5;
+        transition: background-color 0.3s ease;
+        border-radius: 5px;
+    }
+
+
+
+    .celda-seleccionada {
+        background-color: #007bff !important;
+        color: white !important;
+    }
+
+    .hora-texto {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 10px;
+        font-weight: bold;
+        color: white;
+        display: none;
+    }
+
+    .modal-horario-celda.celda-seleccionada .hora-texto {
+        display: block;
+    }
+
+    .horario-table {
+        width: 100%;
+        table-layout: fixed; 
+    }
+</style>

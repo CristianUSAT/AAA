@@ -1,0 +1,10 @@
+flask
+pymysql
+requests
+flask_sqlalchemy
+flask-jwt-extended
+python-socketio
+Flask-SocketIO
+reportlab
+pillow
+werkzeug

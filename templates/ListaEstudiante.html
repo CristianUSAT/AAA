@@ -1,0 +1,215 @@
+{% extends 'vistaDocente.html'%}
+{% block cuerpo2 %}
+<div class="container-fluid">
+    <div class="row">
+        {% include '1barraLateral.html' %}
+        <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 col-xxl-10 pe-0">
+            
+            {% include '2buscador.html' %}
+            <div class="modal fade" id="agregarI" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form  action="{{ url_for('agregarEstudiante') }}" method="post" >
+                                
+                                <div class="row text-center">
+                                    <div>
+                                        <h1 class="fs-2 py-2" style="background-color: red;color: white;">Datos del estudiante</h1>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row ms-1">Codigo:</div>
+                                        <input type="text" class="form-control" id="inputName" name="codigo" placeholder="" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row ms-1">Teléfono:</div>
+                                        <input type="text" class="form-control" id="inputName" name="numero"
+                                            placeholder="" 
+                                            pattern="\d{9}" 
+                                            maxlength="9"
+                                            title="El teléfono debe tener 9 dígitos y solo números"
+                                            onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row ms-1">Apellidos y Nombres:</div>
+                                        <input type="text" class="form-control" id="inputName" name="nombres" placeholder="" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row ms-1">Correo:</div>
+                                        <input type="email" class="form-control" id="inputName" name="correo" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row ms-1">Escuela:</div>
+                                        <select class="form-select" id="selectList" name="escuela" required>
+                                            <option value="" disabled selected>----------</option>
+                                            {% for escuela in escuelas %}
+                                            <option value="{{escuela[0]}}">{{escuela[1]}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row ms-1">Contraseña:</div>
+                                        <input type="text" class="form-control" id="inputName" name="contra" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-6">
+                                        <div class="row ms-1">DNI:</div>
+                                        <input type="text" class="form-control" id="inputName" name="dni" 
+                                            placeholder="" 
+                                            pattern="\d{8}" 
+                                            maxlength="8"
+                                            title="El DNI debe tener 8 dígitos y solo números"
+                                            onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row ms-1">Estado:</div>
+                                        <div class=" d-flex align-items-center justify-content-start">
+                                            <input type="checkbox" class="form-check-input me-1" id="id_estEstudiante"
+                                                name="estado" checked >
+                                            <label class="form-check-label" for="id_estEstudiante">Activo</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer pb-0 pe-0">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Agregar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form method="post" enctype="multipart/form-data" action="" class="col-12">
+
+                <div class="col-12 bd-highlight container-fluid w-100 my-2 mx-0 pe-4">
+                    <div class="d-flex justify-content-between align-middle py-2 pb-0">
+                        <div class="d-block justify-content-start">
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <b class="bi bi-funnel-fill" style="font-size: 13px;"> Escuela profesional</b>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="?id">Todos</a></li>
+                                    {% for i in escuelas %}
+                                        <li><a class="dropdown-item" href="?nomEscuela={{ i[1] }}&dir={{next_dir}}&page={{1}}&columna=1&page={{total_pages}}">
+                                            {{ i[1] }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <b class="bi bi-funnel-fill" style="font-size: 13px;"> Estado</b>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="?id">Todos</a></li>
+                                    <li><a class="dropdown-item" href="?estEstudiante=1">Activo</a></li>
+                                    <li><a class="dropdown-item" href="?estEstudiante=0">No activo</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <nav>
+                            <ul class="pagination">
+                                {% if page > 1 %}
+                                    <li class="page-item" >
+                                        <a class="page-link" href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page=1&columna=1&page={{total_pages}}" style="font-size: 13px;">Inicio</a>
+                                    </li>
+                                {% endif %}
+                                {% if page > 1 %}
+                                    <li class="page-item">
+                                        <a class="page-link" style="font-size: 13px;" href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{page-1}}&columna=1&page={{total_pages}}">Anterior</a>
+                                    </li>
+                                {% endif %}
+                                {% for p in range(1, total_pages + 1) %}
+                                    <li class="page-item {% if p == page %}active{% endif %}">
+                                        <a class="page-link" style="font-size: 13px;" href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{p}}&columna=1&page={{total_pages}}">{{ p }}</a>
+                                    </li>
+                                {% endfor %}
+                                {% if page < total_pages %}
+                                    <li class="page-item">
+                                        <a class="page-link" style="font-size: 13px;" href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{page+1}}&columna=1&page={{total_pages}}">Siguiente</a>
+                                    </li>
+                                {% endif %}
+                                {% if page < total_pages %}
+                                    <li class="page-item">
+                                        <a class="page-link" style="font-size: 13px;" href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{total_pages}}&columna=1&page={{total_pages}}">Fin</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                    {% if lista %}
+                        <table class="table table-striped " style="background-color: whitesmoke;">
+                            <thead>
+                                <th class="align-middle" scope="col"><a href="#">#</a></th>
+                                <th class="align-middle" scope="col"><a href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{page}}&columna=1&page={{total_pages}}">Código</a></th>
+                                <th class="align-middle" scope="col"><a href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{page}}&columna=2&page={{total_pages}}">Apellidos y Nombres</a></th>
+                                <th class="align-middle" scope="col"><a href="?nomEscuela={{ escuela }}&dir={{next_dir}}&page={{page}}&columna=7&page={{total_pages}}">Estado</a></th>
+                                <th class="text-center align-middl" scope="col"><a href="#">Acciones</a></th>
+                                <!-- <th class="text-center align-middle" scope="col">VISUALIZAR</th>
+                                <th class="text-center align-middle" scope="col">DAR DE BAJA</th>
+                                <th class="text-center align-middle" scope="col">EDITAR</th>
+                                <th class="text-center align-middle" scope="col">ELIMINAR</th> -->
+                            </thead>
+                            <tbody>
+                                {% for elemento in lista %}
+                                    <tr>
+                                        <td scope="col" class="col-1" style="padding-left: 10px; width: 70px;">{{ elemento[0] }}</td>
+                                        <td scope="col" class="col-1" style="width: 140px;">{{ elemento[1] }}</td>
+                                        <td scope="col" class="col-7">{{ elemento[2] }}</td>
+                                        <td scope="col" class="col-1">{% if elemento[7] %}Activo{% else %}No activo{% endif %}</td>
+                                        <td class="col text-center align-middle">
+                                            <div class="btn-group" role="group" style="gap: 10px;height: 30px;">
+                                                {% include 'modales.html' %}
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#myModal{{elemento[0]}}" class="btn btn-info btn-sm rounded" role="button" title="Visualizar">
+                                                    <i class="bi bi-eye-fill"></i>
+                                                </a>
+                                                <a href="#" class="btn btn-warning btn-sm rounded" data-bs-toggle="modal" data-bs-target="#modal-visualizar-horario" data-estudiante-id="{{ elemento[0] }}" title="Visualizar Horario"><i class="bi bi-calendar3"></i></a>
+
+                                                </a>
+                                                {% if elemento[7] %}
+                                                    <a href="{{ url_for('cambiarEstEstudiante', estado=elemento[7], id=elemento[0]) }}" class="btn btn-danger btn-sm rounded" role="button" title="Dar de Baja">
+                                                        <i class="bi bi-dash-circle"></i>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{ url_for('cambiarEstEstudiante', estado=elemento[7], id=elemento[0]) }}" class="btn btn-success btn-sm rounded" role="button" title="Dar de Alta">
+                                                        <i class="bi bi-check-circle"></i>
+                                                    </a>
+                                                {% endif %}
+                                                <a href="#" class="btn btn-primary btn-sm rounded" data-bs-toggle="modal" data-bs-target="#modificarE{{elemento[0]}}" role="button" title="Modificar">
+                                                    <i class="bi bi-pencil-fill"></i>
+                                                </a>
+                                                <a type="button" href="#" class="btn btn-danger btn-sm rounded" data-bs-toggle="modal" data-bs-target="#modal-eliminar{{elemento[0]}}" title="Eliminar">
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </a>   
+                                            </div> 
+                                        </td>
+                                        
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <h3>No se encontraron resultados... :'(</h3>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% if error_message %}
+<script>
+    Swal.fire({
+        title: 'Error',
+        text: "{{ error_message }}",
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+    });
+</script>
+{% endif %}
+{% endblock cuerpo2 %}

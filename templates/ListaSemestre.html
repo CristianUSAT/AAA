@@ -1,0 +1,106 @@
+{% extends 'vistaDocente.html'%}
+{% block cuerpo2 %}
+<div class="container-fluid">
+    <div class="row">
+        {% include '1barraLateral.html' %}
+        <div class="col-sm-12 col-md-12 col-lg-10 col-xl-10 col-xxl-10">
+            {% include '2buscador.html' %}
+            <form method="post" class="col-12">
+                <div class="col-12 bd-highlight container-fluid w-100 my-2 mx-0 pe-4">
+                    <div class="d-flex justify-content-end align-middle py-2 pb-0">
+                        <nav>
+                            <ul class="pagination">
+                                {% if page > 1 %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?dir={{next_dir}}&page=1&columna=1&page={{total_pages}}"
+                                        style="font-size: 13px;">Inicio</a>
+                                </li>
+                                {% endif %}
+                                {% if page > 1 %}
+                                <li class="page-item">
+                                    <a class="page-link" style="font-size: 13px;"
+                                        href="?dir={{next_dir}}&page={{page-1}}&columna=1&page={{total_pages}}">Anterior</a>
+                                </li>
+                                {% endif %}
+                                {% for p in range(1, total_pages + 1) %}
+                                <li class="page-item {% if p == page %}active{% endif %}">
+                                    <a class="page-link" style="font-size: 13px;"
+                                        href="?dir={{next_dir}}&page={{p}}&columna=1&page={{total_pages}}">{{ p }}</a>
+                                </li>
+                                {% endfor %}
+                                {% if page < total_pages %} <li class="page-item">
+                                    <a class="page-link" style="font-size: 13px;"
+                                        href="?dir={{next_dir}}&page={{page+1}}&columna=1&page={{total_pages}}">Siguiente</a>
+                                    </li>
+                                    {% endif %}
+                                    {% if page < total_pages %} <li class="page-item">
+                                        <a class="page-link" style="font-size: 13px;"
+                                            href="?dir={{next_dir}}&page={{total_pages}}&columna=1&page={{total_pages}}">Fin</a>
+                                        </li>
+                                        {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                    {% if lista %}
+                    <table class="table table-striped" style="background-color: whitesmoke;">
+                        <thead>
+                            <th class="align-middle" scope="col"><a
+                                    href="?dir={{next_dir}}&page={{page}}&columna=0&page={{total_pages}}">#</a></th>
+                            <th class="align-middle" scope="col"><a
+                                    href="?dir={{next_dir}}&page={{page}}&columna=1&page={{total_pages}}">Nombre</a>
+                            </th>
+                            <th class="align-middle" scope="col"><a
+                                    href="?dir={{next_dir}}&page={{page}}&columna=2&page={{total_pages}}">Fecha de
+                                    inicio</a></th>
+                            <th class="align-middle" scope="col"><a
+                                    href="?dir={{next_dir}}&page={{page}}&columna=3&page={{total_pages}}">Fecha de
+                                    fin</a></th>
+                            <th class="align-middle" scope="col"><a
+                                    href="?dir={{next_dir}}&page={{page}}&columna=4&page={{total_pages}}">Estado</a>
+                            </th>
+                            <th class="align-middle text-center" scope="col"><a href="#">Acciones</a></th>
+                        </thead>
+                        <tbody>
+                            {% for elemento in lista %}
+                            <tr>
+                                <td scope="col-1">{{elemento[0]}}</td>
+                                <td scope="col-3">{{elemento[1]}}</td>
+                                <td scope="col-2">{{elemento[2]}}</td>
+                                <td scope="col-2">{{elemento[3]}}</td>
+                                <td scope="col-1">{% if elemento[4] %} Activo {% else %} No activo {% endif %}</td>
+                                <td class="col-1 text-center align-middle">
+                                    <div class="btn-group" role="group" style="gap: 10px;height: 30px;">
+                                        {% include 'modales.html' %}
+                                        <a href="" data-bs-toggle="modal" data-bs-target="#visualizarSemestre{{elemento[0]}}" class="btn btn-info btn-sm" role="button" title="Visualizar"><i
+                                                class="bi bi-eye-fill"></i></a>
+                                        {% if elemento[4] %}
+                                        <a href="{{url_for('cambiarEstSemestre',estado=elemento[4],id=elemento[0])}}" class="btn btn-danger btn-sm" role="button" title="Dar de Baja"><i
+                                                class="bi bi-dash-circle"></i></a>
+                                        {% else %}
+                                        <a href="{{url_for('cambiarEstSemestre',estado=elemento[4],id=elemento[0])}}" class="btn btn-success btn-sm" role="button" title="Dar de Alta"><i
+                                                class="bi bi-check-circle"></i></a>
+                                        {% endif %}
+                                        <a href="" data-bs-toggle="modal" data-bs-target="#modificarSemestre{{elemento[0]}}" class="btn btn-primary btn-sm" role="button" title="Modificar"><i
+                                                class="bi bi-pencil-fill"></i></a>
+                                        <a href="" data-bs-toggle="modal" data-bs-target="#modal-eliminar-semestre{{elemento[0]}}" class="btn btn-danger btn-sm rounded" role="button" title="Eliminar"><i class="bi bi-trash-fill"></i></a>
+                                    
+                                        
+                                        </a>
+                                    </div>
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    {% set elemento = [0] %}
+                    {% include 'modales.html' %}
+                        <h3>No se encontraron resultados... :'(</h3>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock cuerpo2 %}

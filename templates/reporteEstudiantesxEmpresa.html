@@ -1,0 +1,153 @@
+{% extends 'vistaDocente.html' %}
+
+{% block cuerpo2 %}
+<div class="container-fluid">
+    <div class="row">
+        {% include '1barraLateral.html' %}
+        <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 col-xxl-10 pe-0">
+
+            <h1 class="text-center my-4" style="font-family: Tahoma; font-size: 28px;">
+                Cantidad de estudiantes por empresa
+            </h1>
+            <hr class="my-4" style="border: 1px solid #ddd;">
+
+            <div class="row">
+                <form method="post" enctype="multipart/form-data" action="" class="col-12">
+
+                    <!-- Contenedor para la tabla y el gráfico -->
+                    <div class="container bg-light p-4 rounded shadow-lg">
+                        <div class="d-flex justify-content-between mb-5"> <!-- Aumento la separación aquí -->
+
+                            <!-- Columna para la tabla -->
+                            <div class="col-6">
+                                <h3 class="text-center mb-3" style="font-size: 24px; font-weight: bold; padding-bottom: 30px;">Tabla de Empresas y Estudiantes</h3>
+                                {% if empresas %}
+                                    <table class="table table-striped table-bordered" style="background-color: whitesmoke; font-size: 14px;">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="align-middle text-center" scope="col">#</th>
+                                                <th class="align-middle" scope="col">Nombre de la Empresa</th>
+                                                <th class="align-middle text-center" scope="col">Cantidad de Estudiantes</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for empresa in empresas %}
+                                                <tr>
+                                                    <td class="text-center">{{ empresa[0] }}</td> <!-- ID de la empresa -->
+                                                    <td>{{ empresa[1] }}</td> <!-- Nombre de la empresa -->
+                                                    <td class="text-center">{{ empresa[2] }}</td> <!-- Cantidad de estudiantes -->
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    <h3 class="text-center">No se encontraron resultados... :'(</h3>
+                                {% endif %}
+                            </div>
+
+                            <!-- Columna para el gráfico -->
+                            <div class="col-6"> 
+                                <h3 class="text-center mb-3" style="font-size: 24px; font-weight: bold;">Gráfico de Estudiantes por Empresa</h3>
+                                <canvas id="empresaChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Obtener los datos desde el backend (pasados desde Flask)
+    var empresas = {{ empresas | tojson }};  // Suponiendo que `empresas` es una lista de tuplas
+
+    var labels = empresas.map(function(empresa) {
+        return empresa[1]; // Nombre de la empresa (segundo elemento en la tupla)
+    });
+
+    var data = empresas.map(function(empresa) {
+        return empresa[2]; // Cantidad de estudiantes (tercer elemento en la tupla)
+    });
+
+    var ctx = document.getElementById('empresaChart').getContext('2d');
+    var empresaChart = new Chart(ctx, {
+        type: 'bar',  // Tipo de gráfico: barra
+        data: {
+            labels: labels,  // Las etiquetas (nombres de empresas)
+            datasets: [{
+                label: 'Cantidad de Estudiantes',
+                data: data,  // Los datos (cantidad de estudiantes)
+                backgroundColor: 'rgba(255, 99, 132, 0.2)', // Color de las barras en rojo
+                borderColor: 'rgba(255, 99, 132, 1)',  // Borde de las barras en rojo
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            indexAxis: 'x',  // Esto hace que el gráfico sea horizontal
+            scales: {
+                x: {
+                    beginAtZero: true
+                },
+                y: {
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1,  // Asegura que los valores sean enteros
+                        callback: function(value) {
+                            return Number.isInteger(value) ? value : '';  // Muestra solo números enteros
+                        }
+                    }
+                }
+            }
+        }
+    });
+    /*
+    var empresas = {{ empresas | tojson }};  // Suponiendo que `empresas` es una lista de tuplas
+
+    var labels = empresas.map(function(empresa) {
+        return empresa[1]; // Nombre de la empresa (segundo elemento en la tupla)
+    });
+
+    var data = empresas.map(function(empresa) {
+        return empresa[2]; // Cantidad de estudiantes (tercer elemento en la tupla)
+    });
+
+    var ctx = document.getElementById('empresaChart').getContext('2d');
+    var empresaChart = new Chart(ctx, {
+        type: 'bar',  // Tipo de gráfico: barra
+        data: {
+            labels: labels,  // Las etiquetas (nombres de empresas)
+            datasets: [{
+                label: 'Cantidad de Estudiantes',
+                data: data,  // Los datos (cantidad de estudiantes)
+                backgroundColor: 'rgba(255, 99, 132, 0.2)', // Color de las barras en rojo
+                borderColor: 'rgba(255, 99, 132, 1)',  // Borde de las barras en rojo
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            indexAxis: 'x',  // Esto hace que el gráfico sea horizontal
+            scales: {
+                x: {
+                    beginAtZero: true
+                },
+                y: {
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1,  // Asegura que los valores sean enteros
+                        callback: function(value) {
+                            return Number.isInteger(value) ? value : '';  // Muestra solo números enteros
+                        }
+                    }
+                }
+            }
+        }
+    });
+    */
+</script>
+
+{% endblock cuerpo2 %}

@@ -1,0 +1,96 @@
+{% extends 'vistaDocente.html' %}
+
+{% block cuerpo2 %}
+<div class="container-fluid">
+    <div class="row">
+        {% include '1barraLateral.html' %}
+        <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 col-xxl-10 pe-0 mr-2">
+
+            <!-- Título principal -->
+            <h1 class="text-center my-4" style="font-family: 'Tahoma', sans-serif; font-size: 32px; color: #333;">
+                Cantidad de Estudiantes por Empresa
+            </h1>
+            <hr style="margin-bottom: 20px; margin-top: 10px;">
+
+            <!-- Sección de empresas relacionadas -->
+            <div class="mb-4">
+                <h2 class="h4 mb-3">Empresas Relacionadas</h2>
+                <table class="table table-hover table-bordered shadow-sm">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 70%;">Razón Social</th> <!-- Ajustar el ancho de la columna -->
+                            <th class="text-center" style="width: 30%;">Acción</th> <!-- Ajustar el ancho de la columna -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for empresa in empresas_relacionadas %}
+                        <tr>
+                            <td>{{ empresa[1] }}</td>
+                            <td class="text-center">
+                                <form action="{{ url_for('desasociar_empresa') }}" method="POST">
+                                    <input type="hidden" name="estudiante_id" value="{{ estudiante_id }}">
+                                    <input type="hidden" name="empresa_id" value="{{ empresa[0] }}">
+                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Sección de empresas no relacionadas -->
+            <div class="mb-4">
+                <h2 class="h4 mb-3">Empresas No Relacionadas</h2>
+                <table class="table table-hover table-bordered shadow-sm">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 70%;">Razón Social</th> <!-- Ajustar el ancho de la columna -->
+                            <th class="text-center" style="width: 30%;">Acción</th> <!-- Ajustar el ancho de la columna -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for empresa in empresas_no_relacionadas %}
+                        <tr>
+                            <td>{{ empresa[1] }}</td>
+                            <td class="text-center">
+                                <form action="{{ url_for('asociar_empresa') }}" method="POST">
+                                    <input type="hidden" name="estudiante_id" value="{{ estudiante_id }}">
+                                    <input type="hidden" name="empresa_id" value="{{ empresa[0] }}">
+                                    <button type="submit" class="btn btn-success btn-sm">Agregar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Botón para volver -->
+            <div class="d-flex justify-content-start mt-3">
+                <a href="{{ url_for('relacionEmpresaResponsable') }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left-circle me-2"></i>Volver
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            {% for category, message in messages %}
+                Swal.fire({
+                    title: 'Notificación',
+                    text: "{{ message }}",
+                    icon: "{{ 'success' if category == 'success' else 'error' }}",
+                    confirmButtonText: 'Aceptar'
+                });
+            {% endfor %}
+        });
+    </script>
+{% endif %}
+{% endwith %}
+{% endblock cuerpo2 %}

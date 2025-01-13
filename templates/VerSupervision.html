@@ -1,0 +1,207 @@
+{% extends 'vistaDocente.html' %}
+
+{% block style %}
+<style>
+    .container-form {
+        border: 2px solid #E33439;
+        padding: 20px;
+        margin: 0 auto;
+        max-width: 900px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 40px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+    }
+
+    .container-form h1 {
+        text-align: center;
+        font-family: Tahoma, sans-serif;
+        font-size: 30px;
+        color: white;
+        background-color: #E33439;
+        padding: 15px;
+        width: 100%;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        width: 100%;
+        max-width: 850px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .form-control {
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        background-color: #e9ecef;
+        /* Fondo gris para indicar que está deshabilitado */
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    .form-control[disabled],
+    .form-select[disabled] {
+        background-color: #e9ecef;
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    .form-select {
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+        width: 100%;
+        max-width: 850px;
+    }
+
+    .btn-cancel {
+        background-color: #6c757d;
+        color: white !important;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-decoration: none;
+    }
+
+    .btn-cancel:hover {
+        background-color: #5a6268;
+    }
+
+    img {
+        max-width: 200px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+    }
+</style>
+{% endblock style %}
+
+{% block cuerpo2 %}
+<div class="container-form">
+    <h1>Detalles de supervisión</h1>
+    <div class="form-grid">
+        <!-- Primera columna -->
+        <div>
+            <div class="form-group">
+                <label for="estudiante">Estudiante:</label>
+                <input type="text" class="form-control" id="estudiante_display"
+                    value="{% for estudiante_item in estudiantes %}{% if estudiante_item[0] == supervision[1] %}{{ estudiante_item[2] }}{% endif %}{% endfor %}"
+                    disabled>
+                <input type="hidden" name="estudiante" value="{{ supervision[1] }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="empresa">Empresa:</label>
+                <input type="text" class="form-control" id="empresa"
+                    value="{% for empresa_item in empresas %}{% if empresa_item[0] == supervision[5] %}{{ empresa_item[1] }}{% endif %}{% endfor %}"
+                    disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="ubicacion">Lugar:</label>
+                <input type="text" class="form-control" id="ubicacion" value="{{ supervision[6] }}" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="area_desempenio">Área de Desempeño:</label>
+                <input type="text" class="form-control" id="area_desempenio" value="{{ supervision[7] }}" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="responsable">Responsable:</label>
+                <input type="text" class="form-control" id="responsable"
+                    value="{% for responsable_item in responsable %}{% if responsable_item[0] == supervision[8] %}{{ responsable_item[1] }}{% endif %}{% endfor %}"
+                    disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="funciones">Funciones:</label>
+                <textarea class="form-control" id="funciones" rows="4" disabled>{{ supervision[9] }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="observaciones">Observaciones:</label>
+                <textarea class="form-control" id="observaciones" rows="4" disabled>{{ supervision[10] }}</textarea>
+            </div>
+        </div>
+
+        <!-- Segunda columna para firmas -->
+        <div>
+            <div class="form-group">
+                <label>Firma del practicante:</label>
+                {% if supervision[11] %}
+                <img src="{{ url_for('static', filename='uploads/firmas/' + supervision[11]) }}"
+                    alt="Firma Practicante">
+                {% else %}
+                <p>No registrada</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Firma y sello del responsable de la Empresa/Institución:</label>
+                {% if supervision[12] %}
+                <img src="{{ url_for('static', filename='uploads/firmas/' + supervision[12]) }}"
+                    alt="Firma Responsable">
+                {% else %}
+                <p>No registrada</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Firma del Docente:</label>
+                {% if supervision[13] %}
+                <img src="{{ url_for('static', filename='uploads/firmas/' + supervision[13]) }}" alt="Firma Docente">
+                {% else %}
+                <p>No registrada</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-container">
+        <a href="{{ url_for('listaSuper') }}" class="btn-cancel">Volver</a>
+    </div>
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        {% for category, message in messages %}
+        Swal.fire({
+            title: 'Notificación',
+            text: {{ message| tojson | safe }},
+        icon: "{{ 'success' if category == 'success' else 'error' if category == 'error' else 'info' }}",
+        confirmButtonText: 'Aceptar'
+});
+    {% endfor %}
+});
+</script>
+{% endif %}
+{% endwith %}
+{% endblock cuerpo2 %}

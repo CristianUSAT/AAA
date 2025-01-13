@@ -1,0 +1,270 @@
+{% extends 'vistaEstudiante.html' %}
+{% block cuerpo2 %}
+
+<form action="{{ url_for('guardar_desempenio', id=informe[0]) }}" method="post" enctype="multipart/form-data">
+    <div class="container bd-highlight my-3 col-9" style="border: 2px solid #E33439; padding: 20px;">
+        <h1 style="text-align: center; font-family: Tahoma; font-size: 30px; color:white; background-color: #E33439;">
+            Ficha de evaluación
+        </h1>
+        <br>
+        <fieldset class="d-grid gap-2 mb-4">
+            <div class="row">
+                <div class="col-md-6" style="font-family: Tahoma; font-size: 16px;">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="iniDesempenio">Fecha de inicio:</label>
+                                    <input type="date" class="form-control" id="iniDesempenio" name="iniDesempenio"
+                                        style="width: 200px;" value="{{ informe[6] }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="finDesempenio">Fecha de término:</label>
+                                    <input type="date" class="form-control" id="finDesempenio" name="finDesempenio"
+                                        style="width: 200px;" value="{{ informe[7] }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="empDesempenio">Nombre de la Empresa:</label>
+                            <select class="form-control" id="empDesempenio" name="empDesempenio" required>
+                                <option value="">----------</option>
+                                {% for emp in empresas %}
+                                <option value="{{ emp[0] }}" {% if informe[1]==emp[0] %}selected{% endif %}>{{ emp[1] }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="respDesempenio">Responsable:</label>
+                            <select class="form-control" id="respDesempenio" name="respDesempenio" required>
+                                <option value="">----------</option>
+                                {% for res in responsables %}
+                                <option value="{{ res[0] }}" {% if informe[2]==res[0] %}selected{% endif %}>{{ res[2] }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="docente">Docente de apoyo:</label>
+                            <select class="form-control" id="docente" name="docente" required>
+                                <option value="">----------</option>
+                                {% for res in docentes %}
+                                <option value="{{ res[0] }}" {% if informe[3]==res[0] %}selected{% endif %}>{{ res[1] }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="areDesempenio">Área de Desempeño:</label>
+                            <input type="text" class="form-control" id="areDesempenio" name="areDesempenio"
+                                value="{{ informe[4] }}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" style="font-family: Tahoma; font-size: 16px;">
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="resuDesempenio">Resultados de aprendizaje:</label>
+                            <textarea class="form-control" id="resuDesempenio" name="resuDesempenio" maxlength="400"
+                                style="height: 120px;" required>{{ informe[5] }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="conDesempenio">Conclusiones:</label>
+                            <textarea class="form-control" id="conDesempenio" name="conDesempenio" maxlength="400"
+                                style="height: 120px;" required>{{ informe[8] }}</textarea>
+                        </div><br>
+                        <div class="form-group">
+                            <label for="firRepDesempenio">Firma del Representante:</label>
+                            <input type="file" class="form-control-file" id="firRepDesempenio" name="firRepDesempenio"
+                                accept="image/*">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <table id="tablaCaracteristicas" class="table">
+            <thead>
+                <tr>
+                    <th>Resultados de aprendizaje</th>
+                    <th>Deficiente</th>
+                    <th>Regular</th>
+                    <th>Bueno</th>
+                    <th>Muy bueno</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="tablaCaracteristicas">
+                {% set caracteristicas_predeterminadas = [
+                "Responsabilidad",
+                "Proactividad",
+                "Comunicación asertiva",
+                "Trabajo en equipo",
+                "Compromiso con la calidad",
+                "Organización en el trabajo",
+                "Puntualidad y asistencia"
+                ] %}
+
+                {% set caracteristicas_guardadas = caracteristicas %}
+                <!-- Estas son las características que ya están registradas -->
+
+                {% if caracteristicas_guardadas|length == 0 %}
+                <!-- Si no hay características guardadas, mostrar las predeterminadas -->
+                {% for i in range(7) %}
+                <tr>
+                    <td>
+                        <input type="text" name="nomCaracteristica[]" class="form-control" 
+                            value="{{ caracteristicas_predeterminadas[i] }}" readonly>
+                    </td>
+                    <td>
+                        <input type="radio" name="escala_{{ i }}" value="Deficiente" required>
+                    </td>
+                    <td>
+                        <input type="radio" name="escala_{{ i }}" value="Regular" required>
+                    </td>
+                    <td>
+                        <input type="radio" name="escala_{{ i }}" value="Bueno" required>
+                    </td>
+                    <td>
+                        <input type="radio" name="escala_{{ i }}" value="Muy Bueno" required>
+                    </td>
+                    <td>
+                        <!-- No se agrega el botón de eliminar para las predeterminadas -->
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+
+                <!-- Mostrar las características guardadas -->
+                {% for caracteristica in caracteristicas_guardadas %}
+                <tr>
+                    <td>
+                        <input type="text" name="nomCaracteristica[]" class="form-control"
+                            value="{{ caracteristica[1] }}" required>
+                    </td>
+                    <td>
+                        <input type="radio" name="escala_{{ loop.index }}" value="Deficiente" {% if
+                            caracteristica[2]=='Deficiente' %}checked{% endif %}>
+                    </td>
+                    <td>
+                        <input type="radio" name="escala_{{ loop.index }}" value="Regular" {% if
+                            caracteristica[2]=='Regular' %}checked{% endif %}>
+                    </td>
+                    <td>
+                        <input type="radio" name="escala_{{ loop.index }}" value="Bueno" {% if
+                            caracteristica[2]=='Bueno' %}checked{% endif %}>
+                    </td>
+                    <td >
+                        <input type="radio" name="escala_{{ loop.index }}" value="Muy Bueno" {% if
+                            caracteristica[2]=='Muy Bueno' %}checked{% endif %}>
+                    </td>
+                    <td>
+                        <!-- Botón invisible para mantener el mismo ancho -->
+                        <button class="btn btn-danger invisible" style="visibility: hidden;"  type="button">Eliminar</button>
+                    </td>
+                    <td>
+                        {% if caracteristica[1] not in caracteristicas_predeterminadas %}
+                            <button 
+                                class="btn btn-danger" 
+                                type="button" 
+                                onclick="eliminarCaracteristicaRegistrada({{ caracteristica[0] }}, this)">
+                                Eliminar
+                            </button>
+                        {% endif %}
+                    </td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="button" class="btn btn-primary" onclick="agregarFila()">Agregar Fila</button>
+        <br><br>
+        <div class="d-flex justify-content-end my-2">
+            {% if rol !=1 %}
+            <a href="{{ url_for('listaPPP') }}" class="btn btn-secondary me-2">Cancelar</a>
+            {% else %}
+            <a href="{{ url_for('listarInformes') }}" class="btn btn-secondary me-2">Cancelar</a>
+            {% endif %}
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    let contadorFilas = {{ caracteristicas_guardadas| length }};
+
+        function agregarFila() {
+        contadorFilas++;
+        const tabla = document.getElementById("tablaCaracteristicas").getElementsByTagName("tbody")[0];
+        const nuevaFila = `
+            <tr>
+                <td>
+                    <input type="text" name="nomCaracteristica[]" placeholder="Escriba el resultado" class="form-control" required>
+                </td>
+                <td>
+                    <input type="radio" name="escala_${contadorFilas}" value="Deficiente" required>
+                </td>
+                <td>
+                    <input type="radio" name="escala_${contadorFilas}" value="Regular" required>
+                </td>
+                <td>
+                    <input type="radio" name="escala_${contadorFilas}" value="Bueno" required>
+                </td>
+                <td>
+                    <input type="radio" name="escala_${contadorFilas}" value="Muy Bueno" required>
+                </td>
+                <td>
+                    <button class="btn btn-danger" type="button" onclick="eliminarFila(this)">Eliminar</button>
+                </td>
+            </tr>`;
+        tabla.insertAdjacentHTML('beforeend', nuevaFila);
+    }
+
+    function eliminarFila(boton) {
+        const fila = boton.parentNode.parentNode;
+        fila.parentNode.removeChild(fila);
+        contadorFilas--; // Reducir el contador de filas
+    }
+
+    function eliminarCaracteristicaRegistrada(id, boton) {
+        fetch(`/caracteristica/eliminar/${id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const fila = boton.closest('tr');
+                fila.remove();
+            } else {
+                console.error("Error al eliminar la característica:", data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error en la solicitud:", error);
+        });
+    }
+</script>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    {% for category, message in messages %}
+                    Swal.fire({
+                        title: 'Notificación',
+                        text: {{ message| tojson | safe }},
+                    icon: "{{ 'success' if category == 'success' else 'error' if category == 'error' else 'info' }}",
+                    confirmButtonText: 'Aceptar'
+        });
+                {% endfor %}
+    });
+            </script>
+            {% endif %}
+            {% endwith %}
+{% endblock %}

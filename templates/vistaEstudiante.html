@@ -1,0 +1,101 @@
+{% extends 'index.html'%}
+{% block cuerpo %}
+<div id="clase_space mb-5"
+    style="background-color: whitesmoke; padding: 20px;padding-top: 10px;padding-bottom:10px; color: black">
+    <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+            <img src="/static/imagenes/modulo.png" style="height: 70px;width: 80px;">
+        </div>
+        <div class="d-flex justify-content-end align-items-center">
+            
+            {% if session['role'] == 'estudiante' %}
+            <a class="mb-2" href="#" onclick="limpiar()" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasMensajeria" aria-controls="offcanvasMensajeria">
+                <i class="{% if valor[0]=='0' %} bi-envelope-exclamation-fill {% else %} bi-envelope-fill {% endif %} me-2" style="font-size: 1.7rem;" id="bandeja"></i>
+            </a>
+
+            <!-- Offcanvas -->
+            <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+                id="offcanvasMensajeria" aria-labelledby="offcanvasMensajeriaLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasMensajeriaLabel">Mensajería</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body pt-0">
+                    <!-- Pantalla de lista de remitentes -->
+                    <div id="listaRemitentes">
+                        <ul class="list-group mb-3" id="listaUser">
+                            {% for docente in lista_docentes %}
+                            <form class="formulario-usuarios" data-id="{{docente[0]}}">
+                                <a class="list-group-item hijo a" href="#"
+                                    onclick="mostrarPantallaMensajes('{{ docente[1] }}'); enviarDatos('{{ docente[0] }}')">
+                                    <p class="container-fluid mb-1 b {% if docente[8]=='0'and docente[1]==docente[9] %}
+                                     fw-bold {% endif %}">{{ docente[1] }}</p>
+                                </a>
+                            </form>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!-- Pantalla de mensajes con botón de volver -->
+                    <div id="pantallaMensajes" style="display: none;">
+                        <div class="container-fluid"
+                            style="position: sticky; top: 0; z-index: 10;background-color: white;width: 100%;">
+                            <button class="btn btn-secondary mb-3" onclick="volverAListaRemitentes()">Volver</button>
+                        </div>
+                        <div id="textos" style="overflow-y: auto; max-height: calc(100% - 50px); padding-top: 10px;">
+
+                        </div>
+                        <!-- Input para enviar mensajes -->
+                        <form class="input-group mb-3" id="formulario_chat">
+                            <input type="text" class="form-control" id="mensaje" placeholder="Escribe un mensaje..."
+                                aria-label="Escribe un mensaje...">
+                            <button class="btn btn-primary" type="submit">Enviar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Información del usuario -->
+            <h3 style="font-size: 20px; margin-right: 10px;" class="bi bi-person-circle" id="nombre"> {{ user }}</h3>
+            <a href="{{url_for('logout')}}" class="btn btn-danger">Cerrar sesión</a>
+        </div>
+
+
+    </div>
+</div>
+
+{% block cuerpo2 %}
+<main>
+    <div>
+        <h1 class="display-8 text-center" style="font-family: Tahoma; font-size: 35px; color: brown;">Prácticas Pre
+            profesionales del Estudiante
+    </div>
+    <hr>
+    <div class="container d-flex justify-content-around" style="height: 200%;">
+        <div class="card my-2 bg-transparent text-dark" style="width: 30rem;">
+            <img src="https://img.freepik.com/vector-premium/practica-como-trabajo-formacion-profesional-proceso-practica-habilidades-concepto-esquema-desarrollo-personal-estudiante-experto-aprendizaje-experiencia-ilustracion-vector-mejora-rendimiento-laboral_999327-94433.jpg?w=1480"
+                class="card-img-top " alt="Card image cap">
+            <div class="card-body caption">
+                <h5 class="card-title text-center">Gestionar Prácticas Pre Profesionales</h5>
+                <hr>
+                <p class="card-text text-center">
+                    Aqui registrarás los datos necesarios para tu práctica pre profesional
+                </p>
+                <div class="d-flex justify-content-center my-3">
+                    <a href="{{url_for('listaEmpresas')}}" class="btn btn-lg"
+                        style="background-color: #E33439; color: white;">Ingresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock cuerpo2 %}
+{% endblock cuerpo %}

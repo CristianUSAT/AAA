@@ -1,0 +1,134 @@
+{% extends 'vistaEstudiante.html'%}
+{% block cuerpo2 %}
+<form action="{{url_for('guardar_finalEm',id=informe[0])}}" method="post" enctype="multipart/form-data">
+    <div class="container bd-highlight my-3 col-9" style="border: 2px solid #E33439; padding: 20px;">
+        <h1
+            style="text-align: center; font-family: Tahoma; font-size: 30px; color:white; background-color: #E33439;">
+        Informe final empresa
+        </h1>
+        <br>
+        <fieldset class="d-grid gap-2 mb-4">
+            <div class="row">
+                <div class="col-md-6" style="font-family: Tahoma; font-size: 16px;">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="empFinEmpresa">Nombre de la Empresa/Institución:</label>
+                                <select class="form-control" id="empFinEmpresa" name="empFinEmpresa" required>
+                                    <option value="">----------</option>
+                                    {% for i in empresa %}
+                                    <option value="{{i[0]}}" {% if i[0]==informe[1] %} selected {% endif %}>{{i[1]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="respFinEmpresa">Persona de la Empresa/Institución responsable de la práctica:</label>
+                                <select class="form-control" id="respFinEmpresa" name="respFinEmpresa" required>
+                                    <option value="">----------</option>
+                                    {% for i in responsable %}
+                                    <option value="{{i[0]}}" {% if i[0]==informe[2] %} selected {% endif %}>{{i[2]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="iniFinEmpresa">Fecha de inicio:</label>
+                                    <input type="date" class="form-control" id="iniFinEmpresa"
+                                        name="iniFinEmpresa" style="width: 200px;"
+                                        value="{{informe[4]}}" required>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="finFinEmpresa">Fecha de término:</label>
+                                    <input type="date" class="form-control" id="finFinEmpresa"
+                                        name="finFinEmpresa" style="width: 200px;"
+                                        value="{{informe[5]}}" required>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="objFinEmpresa">Cumplimiento de los objetivos:</label>
+                            <textarea class="form-control" id="objFinEmpresa" name="objFinEmpresa"
+                                maxlength="400"
+                                style="height: 120px;" required>{% if informe[6]!=None %}{{informe[6]}}{% endif %}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="horFinEmpresa">Cumplimiento del total de horas planificadas</label>
+                            <textarea class="form-control" id="horFinEmpresa" name="horFinEmpresa"
+                                maxlength="400"
+                                style="height: 120px;" required>{% if informe[7]!=None %}{{informe[7]}}{% endif %}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" style="font-family: Tahoma; font-size: 16px;">
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="resFinEmpresa">Responsabilidad (disciplina, puntualidad, horarios,
+                                relaciones humanas, etc.)</label>
+                            <textarea class="form-control" id="resFinEmpresa" name="resFinEmpresa"
+                                maxlength="400"
+                                style="height: 120px;" required>{% if informe[8]!=None %}{{informe[8]}}{% endif %}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="otrFinEmpresa">Algún otro aspecto de interés</label>
+                            <textarea class="form-control" id="otrFinEmpresa" name="otrFinEmpresa"
+                                maxlength="400"
+                                style="height: 120px;" required>{% if informe[9]!=None %}{{informe[9]}}{% endif %}</textarea>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="selFirResFinEmpresa">Firma y sello del responsable de la
+                                Empresa/Institución:</label><br>
+                            <input type="file" class="form-control-file" id="selFirResFinEmpresa"
+                                name="selFirResFinEmpresa" accept="image/*">
+                            <label>*Solo acepta en formato .png y .jpg</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    {% if session['role'] == 'docente' or session['role'] == 'admin' %}
+                    <label for="obseIniEstudiante">Observaciones:</label>
+                    <textarea name="observaciones" id="observaciones" style="height: 150px;" class="form-control">{{ '' if informe[13] is none else informe[13] }}</textarea>
+                    {% elif session['role'] == 'estudiante' %}
+                    <label for="obseIniEstudiante">Observaciones:</label>
+                    <textarea name="observaciones" id="observaciones" style="height: 150px;" class="form-control" readonly>{{ '' if informe[13] is none else informe[13] }}</textarea>
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+        {% if rol==2 %}
+        
+        {% endif %}
+        <div class="d-flex justify-content-end my-2">
+            {% if rol !=1 %}
+            <a href="{{url_for('listaPPP')}}" class="btn btn-secondary me-2">Cancelar</a>
+            {% else %}
+            <a href="{{url_for('listarInformes')}}" class="btn btn-secondary me-2">Cancelar</a>
+            {% endif %}
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </div>
+</form>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    {% for category, message in messages %}
+                    Swal.fire({
+                        title: 'Notificación',
+                        text: {{ message| tojson | safe }},
+                    icon: "{{ 'success' if category == 'success' else 'error' if category == 'error' else 'info' }}",
+                    confirmButtonText: 'Aceptar'
+        });
+                {% endfor %}
+    });
+            </script>
+            {% endif %}
+            {% endwith %}
+{% endblock cuerpo2 %}
